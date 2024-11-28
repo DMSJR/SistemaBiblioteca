@@ -1,0 +1,73 @@
+### Necessário para pegar o token    
+### Post  
+# @name loginAutenticado  
+POST http://localhost:40000/Login HTTP/1.1  
+content-type: application/json  
+  
+{      
+    "UserName": "qwe",  
+    "Password": "qwe"  
+}  
+### Seta o token  
+@accessToken = {{loginAutenticado.response.body.$.token}}  
+@username = {{loginAutenticado.response.body.$.username}}  
+
+
+### teste de buscar todos os usuarios  
+GET http://localhost:40000/GetAllUsuarios HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{      
+    
+}  
+
+### teste de buscar usuario por ID  
+POST http://localhost:40000/GetUsuarioByID HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{     
+    "usuarioid": 1  
+}  
+
+### teste de inserção de usuario  
+POST http://localhost:40000/InsertUsuario HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}   
+
+{      
+    "codigo": "1112",   
+    "nome": "Wel",  
+    "email": "Wel@gmail.com",
+    "telefone": "111111112",
+    "datanasc": "10/10/1991",
+    "multas": 10,
+    "deleted": false      
+}  
+
+
+### teste de atualização de usuario  
+POST http://localhost:40000/UpdateUsuario HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{      
+    "usuarioid": 1 ,
+    "codigo": "1111",   
+    "nome": "Dorivaldo-teste",  
+    "email": "dorivaldo@gmail.com-teste",
+    "telefone": "111111113",
+    "datanasc": "11/10/1991",
+    "multas": 101,
+    "deleted": false      
+}  
+
+### teste de deleção de aluno  
+POST http://localhost:40000/DeleteUsuario HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{      
+    "usuarioid": 1   
+}  

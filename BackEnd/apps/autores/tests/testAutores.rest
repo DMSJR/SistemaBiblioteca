@@ -1,0 +1,72 @@
+### Necessário para pegar o token    
+### Post  
+# @name loginAutenticado  
+POST http://localhost:40000/Login HTTP/1.1  
+content-type: application/json  
+  
+{      
+    "UserName": "qwe",  
+    "Password": "qwe"  
+}  
+### Seta o token  
+@accessToken = {{loginAutenticado.response.body.$.token}}  
+@username = {{loginAutenticado.response.body.$.username}}  
+
+
+### teste de buscar todos os autores  
+GET http://localhost:40000/GetAllAutores HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{      
+    
+}  
+
+### teste de buscar autor por ID  
+POST http://localhost:40000/GetAutorByID HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{     
+    "autorid": 1  
+}  
+
+### teste de inserção de autor  
+POST http://localhost:40000/InsertAutor HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}   
+
+{      
+    "codigo": "111",   
+    "nome": "Dostoievsk",  
+    "nacionalidade": "Russo",
+    "datanasc": "01/01/1900",
+    "royalties": "15.55",
+    "deleted": false      
+}  
+
+
+### teste de atualização de autor  
+POST http://localhost:40000/UpdateAutor HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{      
+     
+    "autorid": 1, 
+    "codigo": "111",   
+    "nome": "Dostoievsk-teste",  
+    "nacionalidade": "Russo-teste",
+    "datanasc": "01/01/1901",
+    "royalties": "16.55",
+    "deleted": false          
+}  
+
+### teste de deleção de autor  
+POST http://localhost:40000/DeleteAutor HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{      
+    "autorid": 1  
+}  

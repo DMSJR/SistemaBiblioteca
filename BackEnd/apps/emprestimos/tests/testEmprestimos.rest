@@ -1,0 +1,91 @@
+### Necessário para pegar o token    
+### Post  
+# @name loginAutenticado  
+POST http://localhost:40000/Login HTTP/1.1  
+content-type: application/json  
+  
+{      
+    "UserName": "qwe",  
+    "Password": "qwe"  
+}  
+### Seta o token  
+@accessToken = {{loginAutenticado.response.body.$.token}}  
+@username = {{loginAutenticado.response.body.$.username}}  
+
+
+### teste de buscar todos os emprestimos  
+GET http://localhost:40000/GetAllEmprestimos HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{  
+
+}
+
+### teste de buscar emprestimo por ID  
+POST http://localhost:40000/GetEmprestimoByID HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{     
+    "emprestimoid": 1 
+}  
+
+### teste de inserção de emprestimo  
+POST http://localhost:40000/InsertEmprestimo HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}   
+
+{      
+    "codigo": "ABC123",  
+    "dataemprestimo": "2024-11-01",  
+    "datadevolucao": "2024-11-30",  
+    "multa": "5.00",  
+    "livro_id": 4,  
+    "usuario_id": 2    
+}  
+
+
+### teste de atualização de aluno  
+POST http://localhost:40000/UpdateEmprestimo HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{  
+    "emprestimoid": 1,  
+    "codigo": "ABC124",  
+    "dataemprestimo": "2024-11-02",  
+    "datadevolucao": "2024-12-01",  
+    "multa": "10.00",  
+    "livro_id": 4,  
+    "usuario_id": 2,  
+    "deleted": false  
+}   
+
+### teste de atualização de aluno  
+POST http://localhost:40000/DeleteEmprestimo HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{      
+    "emprestimoid": 1   
+}  
+
+### teste busca de emprestimo por livro
+POST http://localhost:40000/GetEmprestimoPorLivro HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{  
+    "livroid": 1  
+}  
+
+### teste busca de emprestimo por usuario
+POST http://localhost:40000/GetEmprestimoPorUsuario HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+
+{  
+    "usuarioid": 1  
+} 

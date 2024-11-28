@@ -1,0 +1,72 @@
+### Necessário para pegar o token    
+### Post  
+# @name loginAutenticado  
+POST http://localhost:40000/Login HTTP/1.1  
+content-type: application/json  
+  
+{      
+    "UserName": "qwe",  
+    "Password": "qwe"  
+}  
+### Seta o token  
+@accessToken = {{loginAutenticado.response.body.$.token}}  
+@username = {{loginAutenticado.response.body.$.username}}  
+
+
+### teste de buscar todos os alunos  
+GET http://localhost:40000/GetAllLivros HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{      
+    
+}  
+
+### teste de buscar livro por ID  
+POST http://localhost:40000/GetLivroByID HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{     
+    "livroid": 1  
+}  
+
+### teste de inserção de livro  
+POST http://localhost:40000/InsertLivro HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}   
+
+{      
+    "codigo": "1112",   
+    "titulo": "Crime e Castigo",  
+    "datapublicacao": "10/10/2010",
+    "genero": "Romance",
+    "valor": "15.55",
+    "deleted": false      
+}  
+
+
+### teste de atualização de aluno  
+POST http://localhost:40000/UpdateLivro HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{      
+     
+    "livroid": 1, 
+    "codigo": "111",   
+    "titulo": "Crime e Castig- teste",  
+    "datapublicacao": "10/10/2010",
+    "genero": "Romance teste",
+    "valor": "15.65",
+    "deleted": false     
+}  
+
+### teste de atualização de aluno  
+POST http://localhost:40000/DeleteLivro HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{      
+    "livroid": 1   
+}  
