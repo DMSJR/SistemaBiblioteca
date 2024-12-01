@@ -129,7 +129,25 @@ const addAutorAoLivro = async (livroId, autorId) => {
     return { linhasAfetadas: -1, msg: error.detail || error.message };
   }
 };
+const getLivrosPorAutor = async (autorId) => {
+  try {
+    const livros = (
+      await db.query(
+        `SELECT l.* 
+         FROM Livro l
+         JOIN Livro_Autor la ON l.livro_id = la.livro_id
+         WHERE la.autor_id = $1 AND l.deleted = false
+         ORDER BY l.titulo ASC`,
+        [autorId]
+      )
+    ).rows;
 
+    return { livros, msg: "ok" };
+  } catch (error) {
+    console.error("Erro ao buscar livros por autor:", error);
+    return { livros: [], msg: error.detail || error.message };
+  }
+};
 
 module.exports = {
   getAllLivros,
@@ -138,5 +156,6 @@ module.exports = {
   UpdateLivro,
   DeleteLivro,
   getAutoresPorLivro,
+  getLivrosPorAutor,
   addAutorAoLivro
 };

@@ -32,6 +32,10 @@ routerApp.post("/getLivroByID", appLogin.AutenticaJWT, appLivros.getLivroByID);
 routerApp.post("/insertLivro", appLogin.AutenticaJWT, appLivros.insertLivro);
 routerApp.post("/updateLivro", appLogin.AutenticaJWT, appLivros.updateLivro);
 routerApp.post("/DeleteLivro", appLogin.AutenticaJWT, appLivros.deleteLivro);
+routerApp.post("/addAutorAoLivro", appLogin.AutenticaJWT, appLivros.addAutorAoLivro);
+routerApp.post("/getAutoresPorLivro", appLogin.AutenticaJWT, appLivros.getAutoresPorLivro);
+routerApp.post("/getLivrosPorAutor", appLogin.AutenticaJWT, appLivros.getLivrosPorAutor);
+
 
 
 //Rotas de Autores

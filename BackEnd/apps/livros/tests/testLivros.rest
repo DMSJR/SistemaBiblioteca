@@ -70,3 +70,36 @@ Authorization: Bearer {{accessToken}}
 {      
     "livroid": 1   
 }  
+
+### teste de join livro-autor 
+POST http://localhost:40000/addAutorAoLivro HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{      
+     
+    "livroid": 4, 
+    "autorid": 3    
+} 
+
+### teste de getAutoresPorLivro 
+POST http://localhost:40000/getAutoresPorLivro HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{      
+     
+    "livroid": 4
+       
+} 
+
+### teste de getLivrosPorAutor 
+POST http://localhost:40000/getLivrosPorAutor  HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{      
+     
+    "autorid": 3
+       
+} 
