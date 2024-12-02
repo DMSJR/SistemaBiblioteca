@@ -1,0 +1,58 @@
+### Necessário para pegar o token    
+### Post  
+# @name loginAutenticado  
+POST http://localhost:40000/Login HTTP/1.1  
+content-type: application/json  
+  
+{      
+    "UserName": "qwe",  
+    "Password": "qwe"  
+}  
+### Seta o token  
+@accessToken = {{loginAutenticado.response.body.$.token}}  
+@username = {{loginAutenticado.response.body.$.username}}  
+
+
+
+### teste de deleção de autor_livro  
+POST http://localhost:40000/deleteAutorDoLivro HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{      
+    "livroid": 4,
+    "autorid": 1
+}  
+
+### teste de join livro-autor 
+POST http://localhost:40000/addAutorAoLivro HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{      
+     
+    "livroid": 4, 
+    "autorid": 3    
+} 
+
+### teste de getAutoresPorLivro 
+POST http://localhost:40000/getAutoresPorLivro HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{      
+     
+    "livroid": 4
+       
+} 
+
+### teste de getLivrosPorAutor 
+POST http://localhost:40000/getLivrosPorAutor  HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
+
+{      
+     
+    "autorid": 3
+       
+} 

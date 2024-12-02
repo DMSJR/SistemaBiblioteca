@@ -6,6 +6,7 @@ const appLivros = require("../apps/livros/controller/ctlLivros");
 const appAutores = require("../apps/autores/controller/ctlAutores");
 const appEmprestimos = require("../apps/emprestimos/controller/ctlEmprestimos");
 
+const appLivro_autor = require("../apps/livro_autor/controller/ctlLivro_autor");
 
 const appLogin = require("../apps/login/controller/ctlLogin");
 
@@ -32,9 +33,7 @@ routerApp.post("/getLivroByID", appLogin.AutenticaJWT, appLivros.getLivroByID);
 routerApp.post("/insertLivro", appLogin.AutenticaJWT, appLivros.insertLivro);
 routerApp.post("/updateLivro", appLogin.AutenticaJWT, appLivros.updateLivro);
 routerApp.post("/DeleteLivro", appLogin.AutenticaJWT, appLivros.deleteLivro);
-routerApp.post("/addAutorAoLivro", appLogin.AutenticaJWT, appLivros.addAutorAoLivro);
-routerApp.post("/getAutoresPorLivro", appLogin.AutenticaJWT, appLivros.getAutoresPorLivro);
-routerApp.post("/getLivrosPorAutor", appLogin.AutenticaJWT, appLivros.getLivrosPorAutor);
+
 
 
 
@@ -58,6 +57,11 @@ routerApp.post("/DeleteEmprestimo", appLogin.AutenticaJWT, appEmprestimos.delete
 routerApp.post("/Login", appLogin.Login);
 routerApp.post("/Logout", appLogin.Logout);
 
+// Rota livro_autor
+routerApp.post("/addAutorAoLivro", appLogin.AutenticaJWT, appLivro_autor.addAutorAoLivro);
+routerApp.post("/getAutoresPorLivro", appLogin.AutenticaJWT, appLivro_autor.getAutoresPorLivro);
+routerApp.post("/getLivrosPorAutor", appLogin.AutenticaJWT, appLivro_autor.getLivrosPorAutor);
+routerApp.post("/deleteAutorDoLivro", appLogin.AutenticaJWT, appLivro_autor.deleteAutorDoLivro);
 
 
 module.exports = routerApp;
