@@ -50,14 +50,7 @@ const manutEmprestimo = async (req, res) =>
       if (req.method == "GET") {
         const token = req.session.token;
   
-        //@ Busca os cursos disponíveis
-        const emprestimo = await axios.get(
-          process.env.BackEnd + "/GetAllEmprestimo", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}` // Set JWT token in the header
-          }
-        });
+       
   
         return res.render("emprestimo/view/vwFCrEmprestimo.njk", {
           title: "Cadastro de emprestimo",
@@ -114,7 +107,7 @@ const manutEmprestimo = async (req, res) =>
         parseInt(id);
 
         response = await axios.post(
-          process.env.SERVIDOR_DW3Back + "/getEmprestimoByID",
+          process.env.SERVIDOR_DW3Back + "/GetEmprestimoByID",
           {
             emprestimoid: id,
           },
@@ -127,7 +120,7 @@ const manutEmprestimo = async (req, res) =>
         );
         if (response.data.status == "ok") {
           const emprestimo = await axios.get(
-            process.env.SERVIDOR_DW3Back + "/GetAllEmprestimo", {
+            process.env.SERVIDOR_DW3Back + "/GetAllEmprestimos", {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}` // Set JWT token in the header
@@ -171,7 +164,7 @@ const manutEmprestimo = async (req, res) =>
         parseInt(id);
 
         response = await axios.post(
-          process.env.SERVIDOR_DW3Back + "/getEmprestimoByID",
+          process.env.SERVIDOR_DW3Back + "/GetEmprestimoByID",
           {
             agenciaid: id,
           },
