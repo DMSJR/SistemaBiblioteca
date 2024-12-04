@@ -1,0 +1,180 @@
+{% extends "templates/base.html" %}
+
+{% block content %}
+  <div x-data="usuarioForm()">
+    <ol class="breadcrumb mb-2">
+      <li class="breadcrumb-item active">{{title}}</li>
+    </ol>
+    <div class="row">
+      <div class="col-12">
+
+        <div class="card-header">
+          {{tite}}
+
+        </div>
+
+        <div class="card-body">
+          <div class="">
+
+            {# <form @submit.prevent="submitForm"> #}
+            <form>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="codigo">Código</label>
+                    <input type="text" class="form-control" id="codigo" required="required" x-model="form.codigo" x-bind:disabled="disabled">
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input type="text" class="form-control" id="nome" x-model="form.nome" x-bind:disabled="disabled">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="email">E-mail</label>
+                  <input type="email" class="form-control" id="email" x-model="form.email" x-bind:disabled="disabled">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="telefone">Telefone</label>
+                    <input type="number" class="form-control" id="telefone" x-model="form.telefone" x-bind:disabled="disabled">
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="datanasc">Data de Nascimento</label>
+                    <input type="date" class="form-control" id="datanasc" x-model="form.datanasc" x-bind:disabled="disabled">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="multas"></label>
+                <input type="number" class="form-control" id="multas" x-model="form.multas" x-bind:disabled="disabled">
+              </div>
+
+              <button type="button" @click="updateForm()" class="btn btn-primary mt-4">Salvar</button>
+              <button type="button" @click="deleteForm()" x-show="!disabled" class="btn btn-danger mt-4">Deletar</button>
+              <a href="/usuario/manutUsuario" class="btn btn-info mt-4 ml-2" role="button" aria-disabled="true">Retornar</a>
+            </form>
+
+            <div class="mt-3">
+              <template x-if="message">
+                <div :class="messageClass" x-text="message"></div>
+              </template>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    window.onload = function () {
+      windowOnLoad();
+
+      //@ Caso tenha dado erro no servidor frontEnd, ele será mostrado aqui.
+      const localErro = "{{erro}}";
+      if (localErro != "") {
+        alert("[vwUsuario|onload]Servidor retornou o erro:" + localErro);
+      }
+      $("#codigo").focus();
+
+    };
+
+    function UsuarioForm() {
+      return {
+        form: {
+          usuarioid: "{{data.usuarioid}}",
+          codigo: "{{data.codigo}}",
+          nome: "{{data.nome}}",
+          email: "{{data.email}}",
+          telefone: '{{data.telefone}}',
+          datanasc: '{{data.datanasc}}',
+          multas: '{{data.multas}}',
+          deleted: false
+        },
+        message: '',
+        messageClass: '',
+        disabled: {{disabled}},
+
+        async updateForm() {
+          try {
+
+            const response = await fetch('/usuario/UpdateUsuario', {
+              method: 'POST',
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(this.form)
+            });
+
+            const result = await response.json();
+            if (result.status == "ok") {
+              alert("Usuario atualizado com suscesso");
+            } else {
+              const errorData = result.status;
+              this.message = `Erro! Não foi possível atualizar os dados do usuario devido ao erro: ${errorData}`;
+              this.messageClass = 'alert alert-danger';
+            }
+          } catch (error) {
+            this.message = `Erro de conexão: ${error.message}`;
+            this.messageClass = 'alert alert-danger';
+          }
+        },
+
+        async deleteForm() {
+          try {
+            console.log("Valor na página:", JSON.stringify(this.form.usuarioid))
+            const response = await fetch('/usuario/DeleteUsuario', {
+              method: 'POST',
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(this.form)
+            });
+
+            const result = await response.json();
+            if (result.status == "ok") {
+              alert("usuario deletada com suscesso");
+              //@ Redireciona para a página de manutenção
+              window.location.href = "/usuario/manutUsuario";
+
+            } else {
+              const errorData = result.status;
+              this.message = `Erro! Não foi possível atualizar os dados do usuario devido ao erro: ${errorData}`;
+              this.messageClass = 'alert alert-danger';
+            }
+
+          } catch (error) {
+            this.message = `Erro de conexão: ${error.message}`;
+            this.messageClass = 'alert alert-danger';
+          }
+        },
+
+        resetForm() {
+          this.form = {
+            codigo: '',
+            nome: '',
+            email: '',
+            telefone: '',
+            datanasc: '',
+            multas: '',
+            deleted: false
+          };
+          this.message = false;
+        }
+      };
+    }
+  </script>
+
+{% endblock %}

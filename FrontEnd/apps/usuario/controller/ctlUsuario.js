@@ -2,13 +2,11 @@ const axios = require("axios");
 const moment = require("moment");
 
 
-
-
-const manutEmprestimo = async (req, res) =>
+const manutUsuario = async (req, res) =>
  (async () => {
     const userName = req.session.userName;
     const token = req.session.token;
-    const resp = await axios.get(process.env.SERVIDOR_DW3Back + "/getAllEmprestimo", {
+    const resp = await axios.get(process.env.SERVIDOR_DW3Back + "/getAllUsuario", {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}` 
@@ -23,8 +21,8 @@ const manutEmprestimo = async (req, res) =>
       } else {
         remoteMSG = error;
       }
-      res.render("emprestimo/view/vwManutEmprestimo.njk", {
-        title: "Manutenção de Emprestimo",
+      res.render("usuario/view/vwManutUsuario.njk", {
+        title: "Manutenção de Usuário",
         data: null,
         erro: remoteMSG, 
         userName: userName,
@@ -35,8 +33,8 @@ const manutEmprestimo = async (req, res) =>
       return;
     }
 
-    res.render("emprestimo/view/vwManutEmprestimo.njk", {
-        title: "Manutenção de emprestimo",
+    res.render("usuario/view/vwManutUsuario.njk", {
+        title: "Manutenção de Usuário",
         data: resp.data.registro,
         erro: null,
         userName: userName,
@@ -45,18 +43,18 @@ const manutEmprestimo = async (req, res) =>
 
 
 
-    const insertEmprestimo = async (req, res) =>
+    const insertUsuario = async (req, res) =>
     (async () => {
       if (req.method == "GET") {
         const token = req.session.token;
+        
   
-       
-  
-        return res.render("emprestimo/view/vwFCrEmprestimo.njk", {
-          title: "Cadastro de emprestimo",
+        return res.render("usuario/view/vwFCrUsuario.njk", {
+          title: "Cadastro de Usuário",
           data: null,
           erro: null, //@ Caso tenha da erro, a mensagem será mostrada na página html como um Alert
-          userName: req.session.userName,
+          agencia: usuario.data.registro,
+          userName: null,
         });
   
       } else {
@@ -66,16 +64,14 @@ const manutEmprestimo = async (req, res) =>
   
         try {
           // @ Enviando dados para o servidor Backend
-          const response = await axios.post(process.env.SERVIDOR_DW3Back + "/insertEmprestimo", regData, {
+          const response = await axios.post(process.env.SERVIDOR_DW3Back + "/InsertUsuario", regData, {
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${token}`
             },
             timeout: 5000, // @ 5 segundos de timeout
           });
-  
-          //console.log('[ctlAlunos|InsertAlunos] Dados retornados:', response.data);
-  
+    
           res.json({
             status: response.data.status,
             msg: response.data.status,
@@ -95,7 +91,7 @@ const manutEmprestimo = async (req, res) =>
     })();
   
 
-    const ViewEmprestimo = async (req, res) =>
+    const ViewUsuario = async (req, res) =>
   (async () => {
     const userName = req.session.userName;
     const token = req.session.token;
@@ -106,9 +102,9 @@ const manutEmprestimo = async (req, res) =>
         parseInt(id);
 
         response = await axios.post(
-          process.env.SERVIDOR_DW3Back + "/GetEmprestimoByID",
+          process.env.SERVIDOR_DW3Back + "/GetUsuarioByID",
           {
-            emprestimoid: id,
+            usuarioid: id,
           },
           {
             headers: {
@@ -118,42 +114,40 @@ const manutEmprestimo = async (req, res) =>
           }
         );
         if (response.data.status == "ok") {
-          const emprestimo = await axios.get(
-            process.env.SERVIDOR_DW3Back + "/GetAllEmprestimos", {
+          const usuario = await axios.get(
+            process.env.SERVIDOR_DW3Back + "/GetAllUsuarios", {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}` // Set JWT token in the header
             }
           });
 
-          response.data.registro[0].dataemprestimo = moment(response.data.registro[0].dataemprestimo).format(
+          response.data.registro[0].datanasc = moment(response.data.registro[0].datanasc).format(
             "YYYY-MM-DD");
 
-          response.data.registro[0].datadevolucao = moment(response.data.registro[0].datadevolucao).format(
-            "YYYY-MM-DD");
 
-          res.render("emprestimo/view/vwFRUDrEmprestimo.njk", {
-            title: "Visualização de emprestimo",
-            data: response.data.emprestimo[0],
+          res.render("usuario/view/vwFRUDrUsuario.njk", {
+            title: "Visualização de Usuários",
+            data: response.data.usuario[0],
             disabled: true,
-            emprestimo: emprestimo.data.registro,
+            usauario: usuario.data.registro,
             userName: userName,
           });
         } else {
-          console.log("[ctlEmprestimo|ViewEmprestimo] ID de emprestimo não localizado!");
+          console.log("[ctlUsuario|ViewUsuario] ID de usuário não localizado!");
         }
 
       }
     } catch (erro) {
-      res.json({ status: "[ctlEmprestimo.js|ViewEmprestimo] emprestimo não localizado!" });
+      res.json({ status: "[ctlUsuario.js|ViewUsuario] usuario não localizado!" });
       console.log(
-        "[ctlEmprestimo.js|ViewEmprestimo] Try Catch: Erro não identificado",
+        "[ctlUsuario.js|ViewUsuario] Try Catch: Erro não identificado",
         erro
       );
     }
   })();
 
-  const UpdateEmprestimo = async (req, res) =>
+  const UpdateUsuario = async (req, res) =>
   (async () => {
     const userName = req.session.userName;
     const token = req.session.token;
@@ -163,9 +157,9 @@ const manutEmprestimo = async (req, res) =>
         parseInt(id);
 
         response = await axios.post(
-          process.env.SERVIDOR_DW3Back + "/GetEmprestimoByID",
+          process.env.SERVIDOR_DW3Back + "/GetUsuarioByID",
           {
-            emprestimoid: id,
+            usuarioid: id,
           },
           {
             headers: {
@@ -176,22 +170,18 @@ const manutEmprestimo = async (req, res) =>
         );
         if (response.data.status == "ok") {
 
-          response.data.registro[0].dataemprestimo = moment(response.data.registro[0].dataemprestimo).format(
+          response.data.registro[0].datanasc = moment(response.data.registro[0].datanasc).format(
             "YYYY-MM-DD"
           );
 
-          response.data.registro[0].datadevolucao = moment(response.data.registro[0].datadevolucao).format(
-            "YYYY-MM-DD"
-          );
-
-          res.render("emprestimo/view/vwFRUDrEmprestimo.njk", {
-            title: "Atualização de dados de emprestimo",
+          res.render("usuario/view/vwFRUDrUsuario.njk", {
+            title: "Atualização de dados de usuário",
             data: response.data.registro[0],
             disabled: false,
             userName: userName,
           });
         } else {
-          console.log("[ctlEmprestimo|UpdateEmprestimo] Dados não localizados");
+          console.log("[ctlUsuario|UpdateUsuario] Dados não localizados");
         }
       } else {
         //@ POST
@@ -199,7 +189,7 @@ const manutEmprestimo = async (req, res) =>
         const token = req.session.token;
         try {
           // @ Enviando dados para o servidor Backend
-          const response = await axios.post(process.env.SERVIDOR_DW3Back + "/updateEmprestimo", regData, {
+          const response = await axios.post(process.env.SERVIDOR_DW3Back + "/UpdateUsuario", regData, {
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${token}`
@@ -214,7 +204,7 @@ const manutEmprestimo = async (req, res) =>
             erro: null,
           });
         } catch (error) {
-          console.error('[ctlEmprestimo.js|UpdateEmprestimo] Erro ao atualizar dados de emprestimo no servidor backend:', error.message);
+          console.error('[ctlUsuario.js|UpdateUsuario] Erro ao atualizar dados de usuario no servidor backend:', error.message);
           res.json({
             status: "Error",
             msg: error.message,
@@ -224,22 +214,22 @@ const manutEmprestimo = async (req, res) =>
         }
       }
     } catch (erro) {
-      res.json({ status: "[ctlEmprestimo.js|UpdateEmprestimo] Emprestimo não localizada!" });
+      res.json({ status: "[ctlUsuario.js|UpdateUsuario] Usuario não localizada!" });
       console.log(
-        "[ctlEmprestimo.js|UpdateEmprestimo] Try Catch: Erro não identificado",
+        "[ctlUsuario.js|UpdateUsuario] Try Catch: Erro não identificado",
         erro
       );
     }
 
   })();
 
-const DeleteEmprestimo = async (req, res) =>
+const DeleteUsuario = async (req, res) =>
   (async () => {
     const regData = req.body;
     const token = req.session.token;
 
     try {
-      const response = await axios.post(process.env.SERVIDOR_DW3Back + "/DeleteEmprestimo", regData, {
+      const response = await axios.post(process.env.SERVIDOR_DW3Back + "/DeleteUsuario", regData, {
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`,
@@ -266,9 +256,9 @@ const DeleteEmprestimo = async (req, res) =>
   })();
 
 module.exports = {
-  manutEmprestimo,
-  insertEmprestimo,
-  ViewEmprestimo,
-  UpdateEmprestimo,
-  DeleteEmprestimo
+  manutUsuario,
+  insertUsuario,
+  ViewUsuario,
+  UpdateUsuario,
+  DeleteUsuario
 };

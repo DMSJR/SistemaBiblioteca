@@ -1,0 +1,82 @@
+{% extends "templates/base.html" %}
+
+{% block content %}
+
+  <ol class="breadcrumb mb-2">
+    <li class="breadcrumb-item active">{{title}}</li>
+  </ol>
+  <div class="row">
+    <div class="col-xl-12">
+
+      <div class="card-header">
+        Manutenção de Usuário
+      </div>
+
+      <div class="card-body">
+        <div class="">
+          <div style="margin-bottom: 15px;">
+            <a href="/usuario/insertUsuario" class="btn btn-primary">
+              Inserir novo Usuario
+            </a>
+          </div>
+
+          <div style="background-color: #f8f9fa">
+            <table id="tabUsuario" class="display" style="width:100%">
+              <thead>
+                <tr>
+                  <th>Ação</th>
+                  <th>Código</th>
+                  <th>Nome</th>
+                  <th>E-mail</th>
+                  <th>Telefone</th>
+                  <th>Data de Nascimento</th>
+                  <th>Multas</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for reg in data %}
+                  <tr>
+                    <td>
+                      {# Link para visualização dos dados #}
+                      <a href="/usuario/viewUsuario/{{ reg.usuarioid }}" title="Visualizar">
+                        <i class="fas fa-search"></i>
+                      </a>
+
+                      {# Link para atualuzação e remoção dos dados#}
+                      <a href="/usuario/UpdateUsuario/{{ reg.usuarioid }}" title="Atualizar" style="margin-left: 10px;">
+                        <i class="fas fa-pencil-alt"></i>
+                      </a>
+                    </td>
+                    <td>{{reg.codigo}}</td>
+                    <td>{{reg.nome}}</td>
+                    <td>{{reg.email}}</td>
+                    <td>{{reg.telefone}}</td>
+                    <td>{{reg.datanasc}}</td>
+                    <td>{{reg.multas}}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    window.onload = function () {
+      windowOnLoad();
+      //@ Caso tenha dado erro no servidor frontEnd, ele será mostrado aqui.
+      const localErro = "{{erro}}";
+      if (localErro != "") {
+        alert("[vwUsuario|onload]Servidor retornou o erro:" + localErro);
+      }
+
+      new DataTable('#tabUsuario');
+    };
+  </script>
+
+{% endblock %}
