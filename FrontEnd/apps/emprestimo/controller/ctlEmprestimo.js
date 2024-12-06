@@ -8,7 +8,7 @@ const manutEmprestimo = async (req, res) =>
  (async () => {
     const userName = req.session.userName;
     const token = req.session.token;
-    const resp = await axios.get(process.env.SERVIDOR_DW3Back + "/getAllEmprestimo", {
+    const resp = await axios.get(process.env.SERVIDOR_DW3Back + "/getAllEmprestimos", {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}` 
