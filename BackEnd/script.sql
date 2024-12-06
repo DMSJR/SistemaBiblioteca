@@ -4,6 +4,8 @@ DROP TABLE IF EXISTS Livro_Autor CASCADE;
 DROP TABLE IF EXISTS Autor CASCADE;
 DROP TABLE IF EXISTS Livro CASCADE;
 DROP TABLE IF EXISTS Usuario CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+
 
 -- Criar tabela Usuario
 CREATE TABLE Usuario (
@@ -57,3 +59,16 @@ CREATE TABLE Emprestimo (
     usuario_id INT REFERENCES Usuario(usuario_id) ON DELETE CASCADE,
     deleted BOOLEAN DEFAULT FALSE
 );
+create table IF NOT EXISTS users (
+    usuarioid bigserial constraint pk_usuarios PRIMARY KEY,
+    username varchar(10) UNIQUE,
+    password text,
+    deleted boolean DEFAULT false
+);
+
+CREATE EXTENSION if NOT EXISTS pgcrypto;
+
+insert into users values 
+    (default, 'admin', crypt('admin', gen_salt('bf'))), -- senha criptografada com bcrypt
+    (default, 'qwe', crypt('qwe', gen_salt('bf'))) -- senha criptografada com bcrypt
+ON CONFLICT DO NOTHING;
