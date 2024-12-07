@@ -15,7 +15,7 @@
       <div class="card-body">
         <div class="">
           <div style="margin-bottom: 15px;">
-            <a href="/usuario/insertUsuario" class="btn btn-primary">
+            <a href="/usuario/InsertUsuario" class="btn btn-primary">
               Inserir novo Usuario
             </a>
           </div>
@@ -38,12 +38,12 @@
                   <tr>
                     <td>
                       {# Link para visualização dos dados #}
-                      <a href="/usuario/viewUsuario/{{ reg.usuarioid }}" title="Visualizar">
+                      <a href="/usuario/viewUsuario/{{ reg.usuario_id }}" title="Visualizar">
                         <i class="fas fa-search"></i>
                       </a>
 
                       {# Link para atualuzação e remoção dos dados#}
-                      <a href="/usuario/UpdateUsuario/{{ reg.usuarioid }}" title="Atualizar" style="margin-left: 10px;">
+                      <a href="/usuario/updateUsuario/{{ reg.usuario_id }}" title="Atualizar" style="margin-left: 10px;">
                         <i class="fas fa-pencil-alt"></i>
                       </a>
                     </td>

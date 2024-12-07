@@ -16,8 +16,8 @@ function authenticationMiddleware(req, res, next) {
 /* GET métodos */
 router.get('/ManutUsuario', authenticationMiddleware, usuarioApp.manutUsuario);
 router.get('/InsertUsuario', authenticationMiddleware, usuarioApp.insertUsuario);
-router.get('/ViewUsuario/:id', authenticationMiddleware, usuarioApp.ViewUsuario);
-router.get('/UpdateUsuario/:id', authenticationMiddleware, usuarioApp.UpdateUsuario);
+router.get('/viewUsuario/:id', authenticationMiddleware, usuarioApp.ViewUsuario);
+router.get('/updateUsuario/:id', authenticationMiddleware, usuarioApp.UpdateUsuario);
 
 /* POST métodos */
 router.post('/InsertUsuario', authenticationMiddleware, usuarioApp.insertUsuario);

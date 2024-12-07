@@ -23,7 +23,7 @@ Authorization: Bearer {{accessToken}}
 }  
 
 ### teste de buscar usuario por ID  
-POST http://localhost:40000/GetUsuarioByID HTTP/1.1  
+POST http://localhost:40000/getUsuarioByID HTTP/1.1  
 content-type: application/json  
 Authorization: Bearer {{accessToken}}  
 
