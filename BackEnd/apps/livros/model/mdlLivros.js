@@ -28,7 +28,7 @@ const insertLivro = async (LivroREGPar) => {
         [
           LivroREGPar.codigo,
           LivroREGPar.titulo,
-          LivroREGPar.datapublicacao,
+          LivroREGPar.data_publicacao,
           LivroREGPar.genero,
           LivroREGPar.valor
          
@@ -63,7 +63,7 @@ const UpdateLivro = async (LivroREGPar) => {
             LivroREGPar.livroid,
             LivroREGPar.codigo,
             LivroREGPar.titulo,
-            LivroREGPar.datapublicacao,
+            LivroREGPar.data_publicacao,
             LivroREGPar.genero,
             LivroREGPar.valor,
             LivroREGPar.deleted
