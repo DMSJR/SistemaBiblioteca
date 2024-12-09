@@ -23,7 +23,7 @@ Authorization: Bearer {{accessToken}}
 }  
 
 ### teste de buscar livro por ID  
-POST http://localhost:40000/GetLivroByID HTTP/1.1  
+GET http://localhost:40000/getLivroByID HTTP/1.1  
 content-type: application/json  
 Authorization: Bearer {{accessToken}}  
 
@@ -37,7 +37,7 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}   
 
 {      
-    "codigo": "1112",   
+    "codigo": "1122",   
     "titulo": "Crime e Castigo",  
     "datapublicacao": "10/10/2010",
     "genero": "Romance",
@@ -69,37 +69,4 @@ Authorization: Bearer {{accessToken}}
 
 {      
     "livroid": 1   
-}  
-
-### teste de join livro-autor 
-POST http://localhost:40000/addAutorAoLivro HTTP/1.1  
-content-type: application/json  
-Authorization: Bearer {{accessToken}}  
-
-{      
-     
-    "livroid": 4, 
-    "autorid": 3    
-} 
-
-### teste de getAutoresPorLivro 
-POST http://localhost:40000/getAutoresPorLivro HTTP/1.1  
-content-type: application/json  
-Authorization: Bearer {{accessToken}}  
-
-{      
-     
-    "livroid": 4
-       
-} 
-
-### teste de getLivrosPorAutor 
-POST http://localhost:40000/getLivrosPorAutor  HTTP/1.1  
-content-type: application/json  
-Authorization: Bearer {{accessToken}}  
-
-{      
-     
-    "autorid": 3
-       
-} 
+}

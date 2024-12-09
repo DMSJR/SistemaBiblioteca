@@ -37,11 +37,11 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}   
 
 {      
-    "codigo": "ABC123",  
+    "codigo": "ABC124",  
     "dataemprestimo": "2024-11-01",  
     "datadevolucao": "2024-11-30",  
     "multa": "5.00",  
-    "livro_id": 4,  
+    "livro_id": 1,  
     "usuario_id": 2    
 }  
 

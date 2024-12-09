@@ -29,7 +29,7 @@ routerApp.post("/DeleteUsuario", appLogin.AutenticaJWT, appUsuarios.deleteUsuari
 
 //Rotas de Livros
 routerApp.get("/getAllLivros", appLogin.AutenticaJWT, appLivros.getAllLivros);
-routerApp.get("/getLivroByID", appLogin.AutenticaJWT, appLivros.getLivroByID);
+routerApp.post("/getLivroByID", appLogin.AutenticaJWT, appLivros.getLivroByID);
 routerApp.post("/insertLivro", appLogin.AutenticaJWT, appLivros.insertLivro);
 routerApp.post("/updateLivro", appLogin.AutenticaJWT, appLivros.updateLivro);
 routerApp.post("/DeleteLivro", appLogin.AutenticaJWT, appLivros.deleteLivro);

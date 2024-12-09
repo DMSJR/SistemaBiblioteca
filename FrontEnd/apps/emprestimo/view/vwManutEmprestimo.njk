@@ -31,6 +31,7 @@
                   <th>Multa</th>
                   <th>Nome do Autor</th>
                   <th>Nome do Livro</th>
+                  <th>Nome do Usuário</th>
                 </tr>
               </thead>
               <tbody>
@@ -38,7 +39,7 @@
                   <tr>
                     <td>
                       {# Link para visualização dos dados #}
-                      <a href="/emprestimo/viewEmprestimo/{{ reg.emprestimoid }}" title="Visualizar">
+                      <a href="/emprestimo/ViewEmprestimo/{{ reg.emprestimoid }}" title="Visualizar">
                         <i class="fas fa-search"></i>
                       </a>
 
@@ -48,11 +49,13 @@
                       </a>
                     </td>
                     <td>{{reg.codigo}}</td>
-                    <td>{{reg.dataemprestimo}}</td>
-                    <td>{{reg.datadevolucao}}</td>
+                    <td>{{reg.data_emprestimo}}</td>
+                    <td>{{reg.data_devolucao}}</td>
                     <td>{{reg.multa}}</td>
                     <td>{{reg.nomeautor}}</td>
-                    <td>{{reg.nomelivro}}</td>
+                    <td>{{reg.livro}}</td>
+                    <td>{{reg.userName}}</td>
+
                   </tr>
                 {% endfor %}
               </tbody>

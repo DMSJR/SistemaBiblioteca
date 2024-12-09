@@ -11,7 +11,7 @@ const getAllLivros = async () => {
 const getLivroByID = async (LivroIDPar) => {
   return (
     await db.query(
-      "SELECT * FROM Livro WHERE Livro_id = $1 and deleted = false ORDER BY titulo ASC",
+      "SELECT * FROM Livro WHERE livro_id = $1 and deleted = false ORDER BY titulo ASC",
       [LivroIDPar]
     )
   ).rows[0];

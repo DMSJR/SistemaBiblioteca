@@ -31,8 +31,8 @@ Authorization: Bearer {{accessToken}}
 
 {      
      
-    "livroid": 4, 
-    "autorid": 3    
+    "livroid": 1, 
+    "autorid": 1    
 } 
 
 ### teste de getAutoresPorLivro 

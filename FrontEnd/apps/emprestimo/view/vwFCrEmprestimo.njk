@@ -10,8 +10,7 @@
                     {{ tite }}
                 </div>
                 <div class="card-body">
-                    <div
-                        class="">
+                    <div class="">
                         {# <form @submit.prevent="submitForm"> #}
                         <form>
                             <div class="row">
@@ -19,111 +18,139 @@
                                     <div class="form-group">
                                         <label for="código">Código</label>
                                         <input type="text" class="form-control" id="codigo" x-model="form.codigo" required="required"></div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="dataemprestimo">Data emprestimo</label>
-                                            <input type="date" class="form-control" id="dataemprestimo" x-model="form.dataemprestimo"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="datadevolucao">Data devolução</label>
-                                            <input type="date" class="form-control" id="datadevolucao" x-model="form.datadevolucao"></div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <label for="multa">Multa</label>
-                                            <input type="number" class="form-control" id="multa" x-model="form.multa"></div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="nomeautor">Nome do Autor</label>
-                                                <input type="text" class="form-control" id="nomeautor" x-model="form.nomeautor"></div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="nomelivro">Nome do Livro</label>
-                                                    <input type="text" class="form-control" id="nomelivro" x-model="form.nomelivro"></div>
-                                                </div>
-                                                <button type="button" @click="insertForm()" class="btn btn-primary mt-4">Salvar</button>
-                                                <a href="/emprestimo/manutEmprestimo" class="btn btn-info mt-4 ml-2" role="button" aria-disabled="true">Retornar</a>
-                                            </form>
-                                            <div class="mt-3">
-                                                <template x-if="message">
-                                                    <div :class="messageClass" x-text="message"></div>
-                                                </template>
-                                            </div>
-                                        </div>
-                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="dataemprestimo">Data emprestimo</label>
+                                        <input type="date" class="form-control" id="dataemprestimo" x-model="form.dataemprestimo"></div>
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="datadevolucao">Data devolução</label>
+                                    <input type="date" class="form-control" id="datadevolucao" x-model="form.datadevolucao"></div>
+                            </div>
                         </div>
-                        <script>
-                            window.onload = function () {
-                                windowOnLoad();
-                                // @ Caso tenha dado erro no servidor frontEnd, ele será mostrado aqui.
-                                const localErro = "{{ erro }}";
-                                if (localErro != "") {
-                                    alert("[vwEmprestimo|onload]Servidor retornou o erro:" + localErro);
-                                }
-                                $("#codigo").focus();
-                            };
-                            function emprestimoForm() {
-                                return {
-                                    form: {
-                                        codigo: '',
-                                        dataemprestimo: '',
-                                        datadevolucao: '',
-                                        multa: '',
-                                        nomeautor: '',
-                                        nomelivro: '',
-                                        deleted: false
-                                    },
-                                    message: '',
-                                    messageClass: '',
-                                    async insertForm() {
-                                        try {
-                                            console.log("Valor na página:", JSON.stringify(this.form))
-                                            const response = await fetch('/emprestimo/insertEmprestimo', {
-                                                method: 'POST',
-                                                headers: {
-                                                    "Content-Type": "application/json"
-                                                },
-                                                body: JSON.stringify(this.form)
-                                            });
-                                            const result = await response.json();
-                                            console.log("Valor na response:", response);
-                                            console.log("Valor na result:", result);
-                                            if (result.status == "ok") {
-                                                alert("Emprestimo cadastrado com suscesso");
-                                                this.resetForm();
-                                            } else {
-                                                const errorData = result.status;
-                                                this.message = `Erro! Não foi possível cadastrar o emprestimo devido ao erro: ${errorData}`;
-                                                this.messageClass = 'alert alert-danger';
-                                            }
-                                        } catch (error) {
-                                            this.message = `Erro de conexão: ${
-                                                error.message
-                                            }`;
-                                            this.messageClass = 'alert alert-danger';
-                                        }
-                                    },
-                                    resetForm() {
-                                        this.form = {
-                                            codigo: '',
-                                            dataemprestimo: '',
-                                            datadevolucao: '',
-                                            multa: '',
-                                            nomeautor: '',
-                                            nomelivro: '',
-                                            deleted: false
-                                        };
-                                        this.message = false;
-                                    }
-                                };
-                            }
-                        </script>
-                    {% endblock %}
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="multa">Multa</label>
+                                <input type="number" class="form-control" id="multa" x-model="form.multa"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nomeautor">Nome do Autor</label>
+                                <input type="text" class="form-control" id="nomeautor" x-model="form.nomeautor"></div>
+                        </div>
+
+                        <label for="nomelivro">Nome do Livro</label>
+                        <input type="text" class="form-control" id="nomelivro" x-model="form.nomelivro"></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <label for="usuario">Usuário:</label>
+                        <select id="usuario" name="usuario" required="required">
+                            {% for usuario in usuarios %}
+                                <option value="{{ usuario.id }}" {% if data and data.usuarioid == usuario.id %} selected="selected{% endif %}">
+                                    {{ usuario.codigo }}
+                                    -
+                                    {{ usuario.nome }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="livro">Livro:</label>
+                        <select id="livro" name="livro" required="required">
+                            {% for livro in livros %}
+                                <option value="{{ livro.id }}" {% if data and data.livroid == livro.id %} selected="selected{% endif %}">
+                                    {{ livro.codigo }}
+                                    -
+                                    {{ livro.titulo }}
+                                    -
+                                    {{ livro.nomesAutores }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="button" @click="insertForm()" class="btn btn-primary mt-4">Salvar</button>
+                    <a href="/emprestimo/manutEmprestimo" class="btn btn-info mt-4 ml-2" role="button" aria-disabled="true">Retornar</a>
+                </form>
+                <div class="mt-3">
+                    <template x-if="message">
+                        <div :class="messageClass" x-text="message"></div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+window.onload = function () {
+    windowOnLoad();
+    // @ Caso tenha dado erro no servidor frontEnd, ele será mostrado aqui.
+    const localErro = "{{ erro }}";
+    if (localErro != "") {
+        alert("[vwEmprestimo|onload]Servidor retornou o erro:" + localErro);
+    }
+    $("#codigo").focus();
+};
+function emprestimoForm() {
+    return {
+        form: {
+            codigo: '',
+            dataemprestimo: '',
+            datadevolucao: '',
+            multa: '',
+            nomeautor: '',
+            nomelivro: '',
+            deleted: false
+        },
+        message: '',
+        messageClass: '',
+        async insertForm() {
+            try {
+                console.log("Valor na página:", JSON.stringify(this.form))
+                const response = await fetch('/emprestimo/insertEmprestimo', {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(this.form)
+                });
+                const result = await response.json();
+                console.log("Valor na response:", response);
+                console.log("Valor na result:", result);
+                if (result.status == "ok") {
+                    alert("Emprestimo cadastrado com suscesso");
+                    this.resetForm();
+                } else {
+                    const errorData = result.status;
+                    this.message = `Erro! Não foi possível cadastrar o emprestimo devido ao erro: ${errorData}`;
+                    this.messageClass = 'alert alert-danger';
+                }
+            } catch (error) {
+                this.message = `Erro de conexão: ${
+                error.message}`;
+                this.messageClass = 'alert alert-danger';
+            }
+        },
+        resetForm() {
+            this.form = {
+                codigo: '',
+                dataemprestimo: '',
+                datadevolucao: '',
+                multa: '',
+                nomeautor: '',
+                nomelivro: '',
+                deleted: false
+            };
+            this.message = false;
+        }
+    };
+}
+</script>
+{% endblock %}

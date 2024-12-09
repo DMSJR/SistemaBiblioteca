@@ -14,9 +14,11 @@ const getAllLivros = (req, res) =>
 
 const getLivroByID = (req, res) =>
   (async () => {
+    console.log("Corpo da requisição:", req.body); 
     const livroID = parseInt(req.body.livroid);
+    
     let registro = await mdlLivros.getLivroByID(livroID);
-
+    console.log("Livro encontrado:", registro);
 
     res.json({ status: "ok", "registro": registro });
   })();
