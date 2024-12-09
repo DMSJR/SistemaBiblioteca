@@ -9,14 +9,14 @@
     <div class="col-xl-12">
 
       <div class="card-header">
-        Manutenção de Emprestimo
+        Manutenção de Livros
       </div>
 
       <div class="card-body">
         <div class="">
           <div style="margin-bottom: 15px;">
-            <a href="/emprestimo/insertEmprestimo" class="btn btn-primary">
-              Inserir novo Emprestimo
+            <a href="/livro/insertLivro" class="btn btn-primary">
+              Inserir novo Livro
             </a>
           </div>
 
@@ -26,11 +26,9 @@
                 <tr>
                   <th>Ação</th>
                   <th>Código</th>
-                  <th>Data do Emprestimo</th>
-                  <th>Data da Devolução</th>
-                  <th>Multa</th>
-                  <th>Nome do Autor</th>
-                  <th>Nome do Livro</th>
+                  <th>Título</th>
+                  <th>Data da Publicação</th>
+                  <th>Gênero</th>
                 </tr>
               </thead>
               <tbody>
@@ -38,21 +36,19 @@
                   <tr>
                     <td>
                       {# Link para visualização dos dados #}
-                      <a href="/emprestimo/viewEmprestimo/{{ reg.emprestimoid }}" title="Visualizar">
+                      <a href="/livro/viewLivro/{{ reg.livroid }}" title="Visualizar">
                         <i class="fas fa-search"></i>
                       </a>
 
                       {# Link para atualuzação e remoção dos dados#}
-                      <a href="/emprestimo/UpdateEmprestimo/{{ reg.emprestimoid }}" title="Atualizar" style="margin-left: 10px;">
+                      <a href="/livro/UpdateLivro/{{ reg.livroid }}" title="Atualizar" style="margin-left: 10px;">
                         <i class="fas fa-pencil-alt"></i>
                       </a>
                     </td>
                     <td>{{reg.codigo}}</td>
-                    <td>{{reg.datae_mprestimo}}</td>
-                    <td>{{reg.data_devolucao}}</td>
-                    <td>{{reg.multa}}</td>
-                    <td>{{reg.nome_autor}}</td>
-                    <td>{{reg.nome_livro}}</td>
+                    <td>{{reg.titulo}}</td>
+                    <td>{{reg.data_publicacao}}</td>
+                    <td>{{reg.genero}}</td>
                   </tr>
                 {% endfor %}
               </tbody>
@@ -72,7 +68,7 @@
       //@ Caso tenha dado erro no servidor frontEnd, ele será mostrado aqui.
       const localErro = "{{erro}}";
       if (localErro != "") {
-        alert("[vwEmprestimo|onload]Servidor retornou o erro:" + localErro);
+        alert("[vwLivro|onload]Servidor retornou o erro:" + localErro);
       }
 
       new DataTable('#tabEmprestimo');

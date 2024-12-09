@@ -72,3 +72,4 @@ insert into users values
     (default, 'admin', crypt('admin', gen_salt('bf'))), -- senha criptografada com bcrypt
     (default, 'qwe', crypt('qwe', gen_salt('bf'))) -- senha criptografada com bcrypt
 ON CONFLICT DO NOTHING;
+

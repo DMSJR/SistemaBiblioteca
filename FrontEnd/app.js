@@ -15,6 +15,8 @@ const port = process.env.PORT
 var rtIndex = require('./routes/rtIndex');
 var rtEmprestimo = require('./routes/rtEmprestimo');
 var rtUsuario = require('./routes/rtUsuario');
+var rtLivro = require('./routes/rtLivro');
+var rtAutor = require('./routes/rtAutor');
 
 jwtchave = process.env.JWTCHAVE;
 
@@ -47,6 +49,8 @@ app.use(
 app.use('/', rtIndex);
 app.use('/emprestimo', rtEmprestimo);
 app.use('/usuario', rtUsuario);
+app.use('/livro', rtLivro);
+app.use('/autor', rtAutor);
 
 
 

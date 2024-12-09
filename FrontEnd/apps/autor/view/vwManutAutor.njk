@@ -9,28 +9,27 @@
     <div class="col-xl-12">
 
       <div class="card-header">
-        Manutenção de Emprestimo
+        Manutenção de Autores
       </div>
 
       <div class="card-body">
         <div class="">
           <div style="margin-bottom: 15px;">
-            <a href="/emprestimo/insertEmprestimo" class="btn btn-primary">
-              Inserir novo Emprestimo
+            <a href="/autor/insertAutor" class="btn btn-primary">
+              Inserir novo Autor
             </a>
           </div>
 
           <div style="background-color: #f8f9fa">
-            <table id="tabEmprestimo" class="display" style="width:100%">
+            <table id="tabAutores" class="display" style="width:100%">
               <thead>
                 <tr>
                   <th>Ação</th>
                   <th>Código</th>
-                  <th>Data do Emprestimo</th>
-                  <th>Data da Devolução</th>
-                  <th>Multa</th>
-                  <th>Nome do Autor</th>
-                  <th>Nome do Livro</th>
+                  <th>Nome</th>
+                  <th>Nacionalidade</th>
+                  <th>Data de Nascimento</th>
+                  <th>Royalities</th>
                 </tr>
               </thead>
               <tbody>
@@ -38,21 +37,20 @@
                   <tr>
                     <td>
                       {# Link para visualização dos dados #}
-                      <a href="/emprestimo/viewEmprestimo/{{ reg.emprestimoid }}" title="Visualizar">
+                      <a href="/autor/viewAutor/{{ reg.autorid }}" title="Visualizar">
                         <i class="fas fa-search"></i>
                       </a>
 
-                      {# Link para atualuzação e remoção dos dados#}
-                      <a href="/emprestimo/UpdateEmprestimo/{{ reg.emprestimoid }}" title="Atualizar" style="margin-left: 10px;">
+                      {# Link para atualização e remoção dos dados #}
+                      <a href="/autor/UpdateAutor/{{ reg.autorid }}" title="Atualizar" style="margin-left: 10px;">
                         <i class="fas fa-pencil-alt"></i>
                       </a>
                     </td>
                     <td>{{reg.codigo}}</td>
-                    <td>{{reg.datae_mprestimo}}</td>
-                    <td>{{reg.data_devolucao}}</td>
-                    <td>{{reg.multa}}</td>
-                    <td>{{reg.nome_autor}}</td>
-                    <td>{{reg.nome_livro}}</td>
+                    <td>{{reg.nome}}</td>
+                    <td>{{reg.nacionalidade}}</td>
+                    <td>{{reg.data_nascimento}}</td>
+                    <td>{{reg.royalities}}</td>
                   </tr>
                 {% endfor %}
               </tbody>
@@ -72,10 +70,10 @@
       //@ Caso tenha dado erro no servidor frontEnd, ele será mostrado aqui.
       const localErro = "{{erro}}";
       if (localErro != "") {
-        alert("[vwEmprestimo|onload]Servidor retornou o erro:" + localErro);
+        alert("[vwAutor|onload] Servidor retornou o erro: " + localErro);
       }
 
-      new DataTable('#tabEmprestimo');
+      new DataTable('#tabAutores');
     };
   </script>
 

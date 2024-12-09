@@ -2,16 +2,28 @@ const mdlEmprestimos = require("../model/mdlEmprestimos");
 
 const getAllEmprestimos = (req, res) =>
   (async () => {
-    let registro = await mdlEmprestimos.getAllEmprestimos();
-    for (let i = 0; i < registro.length; i++) {
-      const row = registro[i];     
-      const formattedDateEmprestimo = row.data_emprestimo.toISOString().split('T')[0];
-      row.data_emprestimo = formattedDateEmprestimo;
-      const formattedDateDevolucao = row.data_devolucao.toISOString().split('T')[0];
-      row.data_devolucao = formattedDateDevolucao;
+    try {
+      let registro = await mdlEmprestimos.getAllEmprestimos();
+      for (let i = 0; i < registro.length; i++) {
+        const row = registro[i];
+        // Formatar data_emprestimo
+        if (row.data_emprestimo) {
+          row.data_emprestimo = row.data_emprestimo.toISOString().split('T')[0];
+        }
+        // Formatar data_devolucao
+        if (row.data_devolucao) {
+          row.data_devolucao = row.data_devolucao.toISOString().split('T')[0];
+        } else {
+          row.data_devolucao = null; // Valor padrão caso seja null
+        }
+      }
+      res.json({ status: "ok", registro });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ status: "error", message: error.message });
     }
-    res.json({ status: "ok", registro });
   })();
+
 
 const getEmprestimoByID = (req, res) =>
   (async () => {
