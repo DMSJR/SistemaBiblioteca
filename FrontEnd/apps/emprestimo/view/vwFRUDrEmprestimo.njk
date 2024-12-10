@@ -1,9 +1,9 @@
 {% extends "templates/base.html" %}
 
 {% block content %}
-<div>
-  <pre>{{ data | dump }}</pre>
-</div>
+  <div>
+    <pre>{{ data | dump }}</pre>
+  </div>
   <div x-data="emprestimoForm()">
     <ol class="breadcrumb mb-2">
       <li class="breadcrumb-item active">{{title}}</li>
@@ -54,13 +54,17 @@
                 <div class="col-md-3">
                   <div class="form-group">
                     <label for="nomeautor">Nome do Autor</label>
-                    <input type="text" class="form-control" id="nomeautor" x-model="form.nomeautor" x-bind:disabled="disabled">
+                    <input type="text" class="form-control" id="nomeautor" x-model="form.autores" x-bind:disabled="disabled">
                   </div>
                 </div>
               </div>
               <div class="form-group col-md-6">
                 <label for="nomelivro">Nome do Livro</label>
                 <input type="text" class="form-control" id="nomelivro" x-model="form.nomelivro" x-bind:disabled="disabled">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="nomeusuario">Nome do Usuário</label>
+                <input type="text" class="form-control" id="nomeusuario" x-model="form.nomeusuario" x-bind:disabled="disabled">
               </div>
 
               <button type="button" @click="updateForm()" class="btn btn-primary mt-4">Salvar</button>
@@ -102,6 +106,9 @@
           dataemprestimo: "{{data.dataemprestimo}}",
           datadevolucao: "{{data.datadevolucao}}",
           multa: '{{data.multa}}',
+          autores: '{{data.autores}}',
+          nomelivro: '{{data.nomelivro}}',
+          nomeusuario: '{{data.nomeusuario}}',
           deleted: false
         },
         message: '',
@@ -170,6 +177,9 @@
             dataemprestimo: '',
             datadevolucao: '',
             multa: '',
+            autores: '',
+            nomelivro: '',
+            nomeusuario: '',
             deleted: false
           };
           this.message = false;

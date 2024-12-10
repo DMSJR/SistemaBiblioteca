@@ -225,8 +225,6 @@ const insertEmprestimo = async (req, res) => {
 
 
 
-
-
 const ViewEmprestimo = async (req, res) => {
   const userName = req.session.userName;
   const token = req.session.token;
@@ -235,6 +233,7 @@ const ViewEmprestimo = async (req, res) => {
     if (req.method === "GET") {
       const id = parseInt(req.params.id, 10);
 
+      // Busca do empréstimo pelo ID
       const emprestimoResponse = await axios.post(
         `${process.env.SERVIDOR_DW3Back}/getEmprestimoByID`,
         { emprestimoid: id },
@@ -248,9 +247,70 @@ const ViewEmprestimo = async (req, res) => {
 
       if (emprestimoResponse.data.status === "ok") {
         const emprestimo = emprestimoResponse.data.registro;
+        // Formatar datas
         emprestimo.dataemprestimo = moment(emprestimo.dataemprestimo).format("YYYY-MM-DD");
         emprestimo.datadevolucao = moment(emprestimo.datadevolucao).format("YYYY-MM-DD");
 
+        // Busca do nome do livro
+        const livroResponse = await axios.post(
+          `${process.env.SERVIDOR_DW3Back}/getLivroByID`,
+          { livroid: emprestimo.livro_id },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        
+        if (livroResponse.data.status === "ok") {
+          emprestimo.nomelivro = livroResponse.data.registro.titulo;
+
+          // Busca dos autores do livro
+          const autoresResponse = await axios.post(
+            `${process.env.SERVIDOR_DW3Back}/getAutoresPorLivro`,
+            { livroid: emprestimo.livro_id },
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          console.log("Resposta completa de autoresResponse:", autoresResponse.data);
+
+
+          if (autoresResponse.data.status === "ok") {
+            emprestimo.autores = autoresResponse.data.autores.map((autor) => autor.nome).join(", ");
+          } else {
+            emprestimo.autores = "Autores não encontrados.";
+          }
+        } else {
+          emprestimo.nomelivro = "Livro não encontrado.";
+        }
+        console.log("Requisição enviada:", emprestimo);
+        // Busca do nome do usuário
+        const usuarioResponse = await axios.post(
+          `${process.env.SERVIDOR_DW3Back}/getUsuarioByID`,
+          { usuarioid: emprestimo.usuario_id },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Requisição enviada:", {
+          usuarioid: emprestimo.usuario_id,
+        });
+        console.log("usuario", usuarioResponse.data.registro.nome);
+        if (usuarioResponse.data.status === "ok") {
+          emprestimo.nomeusuario = usuarioResponse.data.registro.nome;
+        } else {
+          emprestimo.nomeusuario = "Usuário não encontrado.";
+        }
+
+        // Renderizar a página com todos os dados integrados
         return res.render("emprestimo/view/vwFRUDrEmprestimo.njk", {
           title: "Visualização de Empréstimo",
           data: emprestimo,
@@ -276,10 +336,11 @@ const UpdateEmprestimo = async (req, res) => {
   if (req.method === "GET") {
     try {
       const id = parseInt(req.params.id, 10);
+
       // Buscar dados do empréstimo
       const emprestimoResponse = await axios.post(
         `${process.env.SERVIDOR_DW3Back}/getEmprestimoByID`,
-        { emprestimoid: id }, // Dados enviados no corpo da requisição
+        { emprestimoid: id },
         {
           headers: {
             "Content-Type": "application/json",
@@ -288,16 +349,66 @@ const UpdateEmprestimo = async (req, res) => {
         }
       );
 
-
-      console.log(emprestimoResponse.data);
-
-
       if (emprestimoResponse.data.status === "ok") {
         const emprestimo = emprestimoResponse.data.registro;
 
         // Formatando datas
         emprestimo.dataemprestimo = moment(emprestimo.dataemprestimo).format("YYYY-MM-DD");
         emprestimo.datadevolucao = moment(emprestimo.datadevolucao).format("YYYY-MM-DD");
+
+        // Buscar nome do livro
+        const livroResponse = await axios.post(
+          `${process.env.SERVIDOR_DW3Back}/getLivroByID`,
+          { livroid: emprestimo.livro_id },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (livroResponse.data.status === "ok") {
+          emprestimo.nomelivro = livroResponse.data.registro.titulo;
+
+          // Buscar autores do livro
+          const autoresResponse = await axios.post(
+            `${process.env.SERVIDOR_DW3Back}/getAutoresPorLivro`,
+            { livroid: emprestimo.livro_id },
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (autoresResponse.data.status === "ok") {
+            emprestimo.autores = autoresResponse.data.autores.map((autor) => autor.nome).join(", ");
+          } else {
+            emprestimo.autores = "Autores não encontrados.";
+          }
+        } else {
+          emprestimo.nomelivro = "Livro não encontrado.";
+        }
+
+        // Buscar nome do usuário
+        const usuarioResponse = await axios.post(
+          `${process.env.SERVIDOR_DW3Back}/getUsuarioByID`,
+          { usuarioid: emprestimo.usuario_id },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (usuarioResponse.data.status === "ok") {
+          emprestimo.nomeusuario = usuarioResponse.data.registro.nome;
+        } else {
+          emprestimo.nomeusuario = "Usuário não encontrado.";
+        }
 
         // Buscar todos os usuários
         const usuariosResponse = await axios.get(`${process.env.SERVIDOR_DW3Back}/getAllUsuarios`, {
@@ -315,7 +426,7 @@ const UpdateEmprestimo = async (req, res) => {
           },
         });
 
-        // Renderizar a página de atualização com os dados
+        // Renderizar a página de atualização com os dados completos
         return res.render("emprestimo/view/vwFRUDrEmprestimo.njk", {
           title: "Atualização de Empréstimo",
           data: emprestimo,

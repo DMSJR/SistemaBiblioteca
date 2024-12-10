@@ -20,7 +20,7 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}  
 
 {      
-    "livroid": 4,
+    "livroid": 1,
     "autorid": 1
 }  
 
@@ -53,6 +53,6 @@ Authorization: Bearer {{accessToken}}
 
 {      
      
-    "autorid": 3
+    "autorid": 1
        
 } 
