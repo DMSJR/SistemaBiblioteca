@@ -47,7 +47,7 @@ routerApp.post("/DeleteAutor", appLogin.AutenticaJWT, appAutores.deleteAutor);
 
 //Rotas de Emprestimos
 routerApp.get("/getAllEmprestimos", appLogin.AutenticaJWT, appEmprestimos.getAllEmprestimos);
-routerApp.get("/getEmprestimoByID", appLogin.AutenticaJWT, appEmprestimos.getEmprestimoByID);
+routerApp.post("/getEmprestimoByID", appLogin.AutenticaJWT, appEmprestimos.getEmprestimoByID);
 routerApp.post("/insertEmprestimo", appLogin.AutenticaJWT, appEmprestimos.insertEmprestimo);
 routerApp.post("/updateEmprestimo", appLogin.AutenticaJWT, appEmprestimos.updateEmprestimo);
 routerApp.post("/DeleteEmprestimo", appLogin.AutenticaJWT, appEmprestimos.deleteEmprestimo);
@@ -59,8 +59,8 @@ routerApp.post("/Logout", appLogin.Logout);
 
 // Rota livro_autor
 routerApp.post("/addAutorAoLivro", appLogin.AutenticaJWT, appLivro_autor.addAutorAoLivro);
-routerApp.get("/getAutoresPorLivro", appLogin.AutenticaJWT, appLivro_autor.getAutoresPorLivro);
-routerApp.get("/getLivrosPorAutor", appLogin.AutenticaJWT, appLivro_autor.getLivrosPorAutor);
+routerApp.post("/getAutoresPorLivro", appLogin.AutenticaJWT, appLivro_autor.getAutoresPorLivro);
+routerApp.post("/getLivrosPorAutor", appLogin.AutenticaJWT, appLivro_autor.getLivrosPorAutor);
 routerApp.post("/deleteAutorDoLivro", appLogin.AutenticaJWT, appLivro_autor.deleteAutorDoLivro);
 
 

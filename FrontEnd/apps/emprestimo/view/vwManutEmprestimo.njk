@@ -39,12 +39,13 @@
                   <tr>
                     <td>
                       {# Link para visualização dos dados #}
-                      <a href="/emprestimo/ViewEmprestimo/{{ reg.emprestimoid }}" title="Visualizar">
+                      
+                      <a href="/emprestimo/ViewEmprestimo/{{ reg.emprestimo_id }}" title="Visualizar">
                         <i class="fas fa-search"></i>
                       </a>
 
                       {# Link para atualuzação e remoção dos dados#}
-                      <a href="/emprestimo/UpdateEmprestimo/{{ reg.emprestimoid }}" title="Atualizar" style="margin-left: 10px;">
+                      <a href="/emprestimo/UpdateEmprestimo/{{ reg.emprestimo_id }}" title="Atualizar" style="margin-left: 10px;">
                         <i class="fas fa-pencil-alt"></i>
                       </a>
                     </td>
@@ -52,7 +53,7 @@
                     <td>{{reg.data_emprestimo}}</td>
                     <td>{{reg.data_devolucao}}</td>
                     <td>{{reg.multa}}</td>
-                    <td>{{reg.nomeautor}}</td>
+                    <td>{{reg.autor}}</td>
                     <td>{{reg.livro}}</td>
                     <td>{{reg.userName}}</td>
 

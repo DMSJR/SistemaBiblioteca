@@ -23,7 +23,7 @@ Authorization: Bearer {{accessToken}}
 }  
 
 ### teste de buscar livro por ID  
-GET http://localhost:40000/getLivroByID HTTP/1.1  
+POST http://localhost:40000/getLivroByID HTTP/1.1  
 content-type: application/json  
 Authorization: Bearer {{accessToken}}  
 

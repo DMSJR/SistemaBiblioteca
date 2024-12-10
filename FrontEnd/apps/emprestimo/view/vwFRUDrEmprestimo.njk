@@ -1,7 +1,10 @@
 {% extends "templates/base.html" %}
 
 {% block content %}
-  <div x-data="emrpestimoForm()">
+<div>
+  <pre>{{ data | dump }}</pre>
+</div>
+  <div x-data="emprestimoForm()">
     <ol class="breadcrumb mb-2">
       <li class="breadcrumb-item active">{{title}}</li>
     </ol>
@@ -9,7 +12,7 @@
       <div class="col-12">
 
         <div class="card-header">
-          {{tite}}
+          {{title}}
 
         </div>
 
@@ -94,13 +97,11 @@
     function emprestimoForm() {
       return {
         form: {
-          emprestimoid: "{{data.emprestimoid}}",
+          emprestimo_id: "{{data.emprestimo_id}}",
           codigo: "{{data.codigo}}",
           dataemprestimo: "{{data.dataemprestimo}}",
           datadevolucao: "{{data.datadevolucao}}",
           multa: '{{data.multa}}',
-          nomeautor: '{{data.nomeautor}}',
-          nomelivro: '{{data.nomelivro}}',
           deleted: false
         },
         message: '',
@@ -136,7 +137,7 @@
 
         async deleteForm() {
           try {
-            console.log("Valor na página:", JSON.stringify(this.form.emprestimoid))
+            console.log("Valor na página:", JSON.stringify(this.form.emprestimo_id))
             const response = await fetch('/emprestimo/DeleteEmprestimo', {
               method: 'POST',
               headers: {
@@ -169,8 +170,6 @@
             dataemprestimo: '',
             datadevolucao: '',
             multa: '',
-            nomeautor: '',
-            nomelivro: '',
             deleted: false
           };
           this.message = false;
