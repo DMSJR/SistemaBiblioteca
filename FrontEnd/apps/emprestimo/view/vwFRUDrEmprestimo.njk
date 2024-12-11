@@ -1,9 +1,15 @@
 {% extends "templates/base.html" %}
 
 {% block content %}
-  <div>
+  {#<div>
     <pre>{{ data | dump }}</pre>
   </div>
+  <div>
+    <pre>{{ usuarios | dump }}</pre>
+  </div>
+  <div>
+    <pre>{{ livros | dump }}</pre>
+  </div>#}
   <div x-data="emprestimoForm()">
     <ol class="breadcrumb mb-2">
       <li class="breadcrumb-item active">{{title}}</li>
@@ -50,23 +56,30 @@
                     <input type="number" class="form-control" id="multa" x-model="form.multa" x-bind:disabled="disabled">
                   </div>
                 </div>
-
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label for="nomeautor">Nome do Autor</label>
-                    <input type="text" class="form-control" id="nomeautor" x-model="form.autores" x-bind:disabled="disabled">
-                  </div>
-                </div>
               </div>
               <div class="form-group col-md-6">
                 <label for="nomelivro">Nome do Livro</label>
-                <input type="text" class="form-control" id="nomelivro" x-model="form.nomelivro" x-bind:disabled="disabled">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="nomeusuario">Nome do Usuário</label>
-                <input type="text" class="form-control" id="nomeusuario" x-model="form.nomeusuario" x-bind:disabled="disabled">
+                <select class="form-control" id="nomelivro" x-model="form.livro_id" x-bind:disabled="disabled">
+                  <option value="" disabled="disabled" selected="selected">Selecione um livro</option>
+                  {% for livro in livros %}
+                    <option value="{{ livro.livro_id }}" {% if livro.livro_id == data.livro_id %} selected="selected{% endif %}">
+                      {{ livro.titulo }}
+                    </option>
+                  {% endfor %}
+                </select>
               </div>
 
+              <div class="form-group col-md-6">
+                <label for="nomeusuario">Nome do Usuário</label>
+                <select class="form-control" id="nomeusuario" x-model="form.usuario_id" x-bind:disabled="disabled">
+                  <option value="" disabled="disabled" selected="selected">Selecione um usuário</option>
+                  {% for usuario in usuarios %}
+                    <option value="{{ usuario.usuario_id }}" {% if usuario.usuario_id == data.usuario_id %} selected="selected{% endif %}">
+                      {{ usuario.nome }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
               <button type="button" @click="updateForm()" class="btn btn-primary mt-4">Salvar</button>
               <button type="button" @click="deleteForm()" x-show="!disabled" class="btn btn-danger mt-4">Deletar</button>
               <a href="/emprestimo/manutEmprestimo" class="btn btn-info mt-4 ml-2" role="button" aria-disabled="true">Retornar</a>
@@ -106,9 +119,8 @@
           dataemprestimo: "{{data.dataemprestimo}}",
           datadevolucao: "{{data.datadevolucao}}",
           multa: '{{data.multa}}',
-          autores: '{{data.autores}}',
-          nomelivro: '{{data.nomelivro}}',
-          nomeusuario: '{{data.nomeusuario}}',
+          livro_id: '{{data.livro_id}}', // Altere para o ID do livro
+          usuario_id: '{{data.usuario_id}}', // Altere para o ID do usuário
           deleted: false
         },
         message: '',
@@ -116,6 +128,7 @@
         disabled: {{disabled}},
 
         async updateForm() {
+        console.log("valor na pagina", JSON.stringify(this.form))
           try {
 
             //console.log("Valor na página:", JSON.stringify(this.form))
@@ -144,7 +157,7 @@
 
         async deleteForm() {
           try {
-            console.log("Valor na página:", JSON.stringify(this.form.emprestimo_id))
+            //console.log("Valor na página:", JSON.stringify(this.form.emprestimo_id))
             const response = await fetch('/emprestimo/DeleteEmprestimo', {
               method: 'POST',
               headers: {

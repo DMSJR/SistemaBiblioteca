@@ -262,7 +262,7 @@ const ViewEmprestimo = async (req, res) => {
             },
           }
         );
-        
+
         if (livroResponse.data.status === "ok") {
           emprestimo.nomelivro = livroResponse.data.registro.titulo;
 
@@ -309,11 +309,27 @@ const ViewEmprestimo = async (req, res) => {
         } else {
           emprestimo.nomeusuario = "Usuário não encontrado.";
         }
+        // Buscar todos os usuários
+        const usuariosResponse = await axios.get(`${process.env.SERVIDOR_DW3Back}/getAllUsuarios`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
+        // Buscar todos os livros
+        const livrosResponse = await axios.get(`${process.env.SERVIDOR_DW3Back}/getAllLivros`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
         // Renderizar a página com todos os dados integrados
         return res.render("emprestimo/view/vwFRUDrEmprestimo.njk", {
           title: "Visualização de Empréstimo",
           data: emprestimo,
+          usuarios: usuariosResponse.data.registro, // Lista de usuários
+          livros: livrosResponse.data.registro,
           disabled: true,
           userName,
         });
@@ -446,9 +462,9 @@ const UpdateEmprestimo = async (req, res) => {
   } else {
     // POST: Atualizar o empréstimo
     const regData = req.body;
-
+    console.log(regData)
     try {
-      const response = await axios.post(`${process.env.SERVIDOR_DW3Back}/updateEmprestimo`, regData, {
+      const response = await axios.post(`${process.env.SERVIDOR_DW3Back}/UpdateEmprestimo`, regData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

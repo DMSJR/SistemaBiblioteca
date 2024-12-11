@@ -89,7 +89,7 @@ const UpdateEmprestimo = async (EmprestimoREGPar) => {
                 "deleted = $8 " +
                 "WHERE emprestimo_id = $1",
                 [
-                    EmprestimoREGPar.emprestimoid,
+                    EmprestimoREGPar.emprestimo_id,
                     EmprestimoREGPar.codigo,
                     EmprestimoREGPar.dataemprestimo,
                     EmprestimoREGPar.datadevolucao,
@@ -115,7 +115,7 @@ const DeleteEmprestimo = async (EmprestimoREGPar) => {
         linhasAfetadas = (
             await db.query(
                 "UPDATE Emprestimo SET deleted = true WHERE emprestimo_id = $1",
-                [EmprestimoREGPar.emprestimoid]
+                [EmprestimoREGPar.emprestimo_id]
             )
         ).rowCount;
     } catch (error) {
