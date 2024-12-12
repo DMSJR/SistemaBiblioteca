@@ -128,42 +128,69 @@ const insertLivro = async (req, res) =>
 
 
 
-const fetchLivroData = async (id, token) => {
-  try {
-    const response = await axios.post(
-      `${process.env.SERVIDOR_DW3Back}/getLivroByID`,
-      { livroid: id },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+  const fetchLivroData = async (id, token) => {
+    try {
+      // Realizar ambas as requisições em paralelo: um para buscar os dados do livro e outro para os autores
+      const [livroResponse, autoresResponse] = await Promise.all([
+        axios.post(
+          `${process.env.SERVIDOR_DW3Back}/getLivroByID`,
+          { livro_id: id },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        ),
+        axios.get(`${process.env.SERVIDOR_DW3Back}/GetAllAutores`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+      ]);
+  
+      // Verificar se a resposta do livro está ok
+      if (livroResponse.data.status === "ok") {
+        const livroData = livroResponse.data.registro;
+  
+        // Formatar a data de nascimento do autor, se necessário
+        livroData.datanasc = moment(livroData.datanasc).format("YYYY-MM-DD");
+  
+        // Verificar se a resposta dos autores está ok
+        if (autoresResponse.data.status === "ok") {
+          const autores = autoresResponse.data.registro;
+  
+          // Retornar o livroData junto com os autores
+          return {
+            livroData,
+            autores,
+          };
+        } else {
+          console.log("[fetchLivroData] Erro ao buscar a lista de autores.");
+          throw new Error("Erro ao buscar a lista de autores");
+        }
+      } else {
+        console.log("[fetchLivroData] Livro não encontrado.");
+        throw new Error("Livro não encontrado");
       }
-    );
-    console.log(response);
-    if (response.data.status === "ok") {
-      const livroData = response.data.registro;
-      livroData.datanasc = moment(livroData.datanasc).format("YYYY-MM-DD");
-      return livroData;
-    } else {
-      console.log("[fetchLivroData] Livro não encontrado.");
-      throw new Error("Livro não encontrado");
+    } catch (error) {
+      console.error("[fetchLivroData] Erro ao buscar dados do livro ou dos autores:", error.message);
+      throw error;
     }
-  } catch (error) {
-    console.error("[fetchLivroData] Erro ao buscar dados do livro:", error.message);
-    throw error;
-  }
-};
+  };
+  
 const ViewLivro = async (req, res) => {
   const userName = req.session.userName;
   const token = req.session.token;
   const id = parseInt(req.params.id);
 
   try {
-    const livroData = await fetchLivroData(id, token);
+    const { livroData, autores }  = await fetchLivroData(id, token);
     res.render("livro/view/vwFRUDrLivro.njk", {
       title: "Visualização de Livro",
       data: livroData,
+      dataAutores: autores,
       disabled: true, // Campos desabilitados para visualização
       userName: userName,
     });
@@ -180,10 +207,12 @@ const UpdateLivro = async (req, res) => {
     const id = parseInt(req.params.id);
 
     try {
-      const livroData = await fetchLivroData(id, token);
+      const { livroData, autores }  = await fetchLivroData(id, token);
+      console.log(autores);
       res.render("livro/view/vwFRUDrLivro.njk", {
         title: "Atualização de Livro",
         data: livroData,
+        dataAutores: autores,
         disabled: false, // Campos editáveis
         userName: userName,
       });
@@ -262,9 +291,8 @@ const DeleteLivro = async (req, res) =>
 const addAutor = async (req, res) => {
   const { livro_id, autor_id } = req.body;
   const token = req.session.token;
-  console.log(livro_id);
-  autor_id_int = parseInt(autor_id);
-  console.log(autor_id_int);
+ 
+
   try {
     const response = await axios.post(
       `${process.env.SERVIDOR_DW3Back}/addAutorAoLivro`,
@@ -297,6 +325,43 @@ const addAutor = async (req, res) => {
     });
   }
 };
+const deleteAutorDoLivro = async (req, res) => {
+  const { livro_id, autor_id } = req.body;
+  const token = req.session.token;
+  
+
+  try {
+    const response = await axios.post(
+      `${process.env.SERVIDOR_DW3Back}/deleteAutorDoLivro`,
+      { livro_id, autor_id },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      }
+    );
+
+    if (response.data.status === "ok") {
+      res.json({
+        status: "ok",
+        msg: "Autor removido com sucesso!",
+        autor: response.data.autor
+      });
+    } else {
+      res.json({
+        status: "error",
+        msg: response.data.msg
+      });
+    }
+  } catch (error) {
+    console.error("Erro ao remover autor:", error.message);
+    res.json({
+      status: "error",
+      msg: `Erro de conexão: ${error.message}`
+    });
+  }
+};
 
 module.exports = {
   manutLivro,
@@ -304,5 +369,6 @@ module.exports = {
   ViewLivro,
   UpdateLivro,
   DeleteLivro,
-  addAutor
+  addAutor,
+  deleteAutorDoLivro
 };

@@ -76,10 +76,10 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 d-flex align-items-end">
-                                    <button type="button" class="btn btn-success" @click="addAutor()" :disabled="!isSaved">Adicionar Autor</button>
+                                    <button type="button" class="btn btn-success mr-2" @click="addAutor()" :disabled="!isSaved">Adicionar Autor</button>
+                                    <button type="button" class="btn btn-danger" @click="removeAutor()" :disabled="!isSaved">Remover Autor</button>
                                 </div>
                             </div>
-                            
                         </div>
                     </div>
 
@@ -92,18 +92,7 @@
             </div>
         </div>
     </div>
-
     <script>
-        window.onload = function () {
-            const localErro = "{{ erro }}";
-            if (localErro && localErro.trim() !== "") {
-                alert("[vwLivro|onload] Servidor retornou o erro: " + localErro);
-            }
-            document
-                .getElementById("codigo")
-                .focus();
-        };
-
         function livroForm() {
             return {
                 form: {
@@ -112,7 +101,8 @@
                     data_publicacao: '',
                     genero: '',
                     valor: '',
-                    deleted: false
+                    deleted: false,
+                    livro_id: null, // Adicionei esta propriedade para armazenar o ID do livro salvo
                 },
                 isSaved: false, // Indica se o livro foi salvo
                 autoresVinculados: [],
@@ -139,10 +129,10 @@
 
                         if (result.status === "ok") {
                             this.isSaved = true; // Habilita o seletor de autores
-                            this.form.livro_id = result.livro_id; 
+                            this.form.livro_id = result.livro_id;
                             this.message = "Livro salvo com sucesso!";
                             this.messageClass = "alert alert-success";
-                            console.log (this.form.livro_id);
+                            console.log(this.form.livro_id);
                         } else {
                             this.message = `Erro: ${result.msg}`;
                             this.messageClass = "alert alert-danger";
@@ -173,7 +163,36 @@
                         if (result.status === "ok") {
                             this.message = "Autor adicionado com sucesso!";
                             this.messageClass = "alert alert-success";
-                            
+                        } else {
+                            this.message = `Erro: ${result.msg}`;
+                            this.messageClass = "alert alert-danger";
+                        }
+                    } catch (error) {
+                        this.message = `Erro de conexão: ${error.message}`;
+                        this.messageClass = "alert alert-danger";
+                    }
+                },
+                async removeAutor() {
+                    if (!this.selectedAutorId) {
+                        this.message = "Selecione um autor antes de remover.";
+                        this.messageClass = "alert alert-warning";
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch('/livro/deleteAutorDoLivro', {
+                            method: 'POST',
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({livro_id: this.form.livro_id, autor_id: this.selectedAutorId})
+                        });
+
+                        const result = await response.json();   
+
+                        if (result.status === "ok") {
+                            this.message = "Autor removido com sucesso!";
+                            this.messageClass = "alert alert-success";
                         } else {
                             this.message = `Erro: ${result.msg}`;
                             this.messageClass = "alert alert-danger";
@@ -186,4 +205,5 @@
             };
         }
     </script>
+
 {% endblock %}

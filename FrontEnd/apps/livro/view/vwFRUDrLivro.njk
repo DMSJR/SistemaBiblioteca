@@ -5,6 +5,11 @@
     <ol class="breadcrumb mb-2">
       <li class="breadcrumb-item active">{{title}}</li>
     </ol>
+    <div>
+      <pre>{{ dataAutores | dump }}</pre>
+      <pre>{{ data | dump }}</pre>
+
+    </div>
     <div class="row">
       <div class="col-12">
 
@@ -64,11 +69,38 @@
                 <div :class="messageClass" x-text="message"></div>
               </template>
             </div>
+            <!-- Adicionar e Remover Autor -->
+            <div class="card mt-4">
+              <div class="card-header">
+                Gerenciar Autores
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="form-group">
+                      <label for="autor">Selecione um Autor</label>
+                      <select id="autor" class="form-control" x-model="selectedAutorId" :disabled="!isSaved" x-bind:disabled="disabled">
+                        <option value="">Selecione</option>
+                        {% for autor in dataAutores %}
+                          <option value="{{ autor.autor_id }}">{{ autor.nome }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4 d-flex align-items-end">
+                    <button type="button" class="btn btn-success mr-2" @click="addAutor()" :disabled="!isSaved">Adicionar Autor</button>
+                    <button type="button" class="btn btn-danger" @click="removeAutor()" :disabled="!isSaved">Remover Autor</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+
 
   <script>
     window.onload = function () {
@@ -93,6 +125,8 @@
           valor: "{{data.valor}}",
           deleted: false
         },
+        isSaved: true, // Ativar para gerenciar autores
+        selectedAutorId: '',
         message: '',
         messageClass: '',
         disabled: {{disabled}},
@@ -143,17 +177,66 @@
             this.messageClass = 'alert alert-danger';
           }
         },
+        async addAutor() {
+          if (!this.selectedAutorId) {
+            this.message = "Selecione um autor antes de adicionar.";
+            this.messageClass = "alert alert-warning";
+            return;
+          }
 
-        resetForm() {
-          this.form = {
-            codigo: '',
-            titulo: '',
-            data_publicacao: '',
-            genero: '',
-            valor: '',
-            deleted: false
-          };
-          this.message = false;
+          try {
+            const response = await fetch('/livro/addAutor', {
+              method: 'POST',
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({livro_id: this.form.livro_id, autor_id: this.selectedAutorId})
+            });
+
+            const result = await response.json();
+
+            if (result.status === "ok") {
+              this.message = "Autor adicionado com sucesso!";
+              this.messageClass = "alert alert-success";
+            } else {
+              this.message = `Erro: ${result.msg}`;
+              this.messageClass = "alert alert-danger";
+            }
+          } catch (error) {
+            this.message = `Erro de conexão: ${error.message}`;
+            this.messageClass = "alert alert-danger";
+          }
+        },
+
+        async removeAutor() {
+          if (!this.selectedAutorId) {
+            this.message = "Selecione um autor antes de remover.";
+            this.messageClass = "alert alert-warning";
+            return;
+          }
+
+          try {
+            const response = await fetch('/livro/deleteAutorDoLivro', {
+              method: 'POST',
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({livro_id: this.form.livro_id, autor_id: this.selectedAutorId})
+            });
+
+            const result = await response.json();
+
+            if (result.status === "ok") {
+              this.message = "Autor removido com sucesso!";
+              this.messageClass = "alert alert-success";
+            } else {
+              this.message = `Erro: ${result.msg}`;
+              this.messageClass = "alert alert-danger";
+            }
+          } catch (error) {
+            this.message = `Erro de conexão: ${error.message}`;
+            this.messageClass = "alert alert-danger";
+          }
         }
       };
     }

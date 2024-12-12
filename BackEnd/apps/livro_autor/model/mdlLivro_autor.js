@@ -50,7 +50,7 @@ const getLivrosPorAutor = async (autor_id) => {
         return { livros: [], msg: error.detail || error.message };
     }
 };
-const deleteAutorDoLivro = async (livro_Id, autor_id) => {
+const deleteAutorDoLivro = async (livro_id, autor_id) => {
     try {
         const linhasAfetadas = (
             await db.query(

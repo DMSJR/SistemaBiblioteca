@@ -25,6 +25,6 @@ router.post('/InsertLivro', authenticationMiddleware, livroApp.insertLivro);
 router.post('/UpdateLivro', authenticationMiddleware, livroApp.UpdateLivro);
 router.post('/DeleteLivro', authenticationMiddleware, livroApp.DeleteLivro);
 router.post('/addautor', authenticationMiddleware, livroApp.addAutor);
-
+router.post('/deleteAutorDoLivro', authenticationMiddleware, livroApp.deleteAutorDoLivro);
 
 module.exports = router;
