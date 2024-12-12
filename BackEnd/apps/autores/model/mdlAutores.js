@@ -8,11 +8,11 @@ const getAllAutores = async () => {
     ).rows;
 };
 
-const getAutorByID = async (AutorIDPar) => {
+const getAutorByID = async (autor_idPar) => {
     return (
         await db.query(
             "SELECT * FROM Autor WHERE Autor_id = $1 and deleted = false ORDER BY nome ASC",
-            [AutorIDPar]
+            [autor_idPar]
         )
     ).rows[0];
 };
@@ -60,7 +60,7 @@ const UpdateAutor = async (AutorREGPar) => {
                 "deleted = $7 " +
                 "WHERE autor_id = $1",
                 [
-                    AutorREGPar.autorid,
+                    AutorREGPar.autor_id,
                     AutorREGPar.codigo,
                     AutorREGPar.nome,
                     AutorREGPar.nacionalidade,
@@ -88,7 +88,7 @@ const DeleteAutor = async (AutorREGPar) => {
         linhasAfetadas = (
             await db.query(
                 "UPDATE Autor SET deleted = true WHERE autor_id = $1",
-                [AutorREGPar.autorid]
+                [AutorREGPar.autor_id]
             )
         ).rowCount;
     } catch (error) {

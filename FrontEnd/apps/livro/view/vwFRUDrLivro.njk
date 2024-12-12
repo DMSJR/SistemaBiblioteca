@@ -1,0 +1,162 @@
+{% extends "templates/base.html" %}
+
+{% block content %}
+  <div x-data="livroForm()">
+    <ol class="breadcrumb mb-2">
+      <li class="breadcrumb-item active">{{title}}</li>
+    </ol>
+    <div class="row">
+      <div class="col-12">
+
+        <div class="card-header">
+          {{title}}
+        </div>
+
+        <div class="card-body">
+          <div class="">
+            <form>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="codigo">Código</label>
+                    <input type="text" class="form-control" id="codigo" required="required" x-model="form.codigo" x-bind:disabled="disabled">
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="titulo">Título</label>
+                    <input type="text" class="form-control" id="titulo" x-model="form.titulo" x-bind:disabled="disabled">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="data_publicacao">Data de Publicação</label>
+                    <input type="date" class="form-control" id="data_publicacao" x-model="form.data_publicacao" x-bind:disabled="disabled">
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="genero">Gênero</label>
+                    <input type="text" class="form-control" id="genero" x-model="form.genero" x-bind:disabled="disabled">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="valor">Valor</label>
+                  <input type="number" class="form-control" id="valor" x-model="form.valor" x-bind:disabled="disabled" step="0.01">
+                </div>
+              </div>
+
+              <button type="button" @click="updateForm()" class="btn btn-primary mt-4">Salvar</button>
+              <button type="button" @click="deleteForm()" x-show="!disabled" class="btn btn-danger mt-4">Deletar</button>
+              <a href="/livro/manutLivro" class="btn btn-info mt-4 ml-2" role="button" aria-disabled="true">Retornar</a>
+            </form>
+
+            <div class="mt-3">
+              <template x-if="message">
+                <div :class="messageClass" x-text="message"></div>
+              </template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.onload = function () {
+      windowOnLoad();
+
+      //@ Caso tenha dado erro no servidor frontEnd, ele será mostrado aqui.
+      const localErro = "{{erro}}";
+      if (localErro != "") {
+        alert("[vwLivro|onload] Servidor retornou o erro:" + localErro);
+      }
+      $("#codigo").focus();
+    };
+
+    function livroForm() {
+      return {
+        form: {
+          livro_id: "{{data.livro_id}}",
+          codigo: "{{data.codigo}}",
+          titulo: "{{data.titulo}}",
+          data_publicacao: "{{data.data_publicacao}}",
+          genero: "{{data.genero}}",
+          valor: "{{data.valor}}",
+          deleted: false
+        },
+        message: '',
+        messageClass: '',
+        disabled: {{disabled}},
+
+        async updateForm() {
+          try {
+            const response = await fetch('/livro/UpdateLivro', {
+              method: 'POST',
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(this.form)
+            });
+
+            const result = await response.json();
+            if (result.status == "ok") {
+              alert("Livro atualizado com sucesso");
+            } else {
+              this.message = `Erro! Não foi possível atualizar os dados do livro devido ao erro: ${result.status}`;
+              this.messageClass = 'alert alert-danger';
+            }
+          } catch (error) {
+            this.message = `Erro de conexão: ${error.message}`;
+            this.messageClass = 'alert alert-danger';
+          }
+        },
+
+        async deleteForm() {
+          try {
+            const response = await fetch('/livro/DeleteLivro', {
+              method: 'POST',
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(this.form)
+            });
+
+            const result = await response.json();
+            if (result.status == "ok") {
+              alert("Livro deletado com sucesso");
+              window.location.href = "/livro/manutLivro";
+            } else {
+              this.message = `Erro! Não foi possível deletar os dados do livro devido ao erro: ${result.status}`;
+              this.messageClass = 'alert alert-danger';
+            }
+          } catch (error) {
+            this.message = `Erro de conexão: ${error.message}`;
+            this.messageClass = 'alert alert-danger';
+          }
+        },
+
+        resetForm() {
+          this.form = {
+            codigo: '',
+            titulo: '',
+            data_publicacao: '',
+            genero: '',
+            valor: '',
+            deleted: false
+          };
+          this.message = false;
+        }
+      };
+    }
+  </script>
+
+{% endblock %}

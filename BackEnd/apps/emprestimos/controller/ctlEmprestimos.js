@@ -22,8 +22,8 @@ const getEmprestimoByID = (req, res) =>
 
 const getEmprestimoPorLivro = (req, res) =>
   (async () => {
-    const livroID = parseInt(req.body.livroid);
-    let { emprestimos, msg } = await mdlEmprestimos.getEmprestimoPorLivro(livroID);
+    const livro_id = parseInt(req.body.livro_id);
+    let { emprestimos, msg } = await mdlEmprestimos.getEmprestimoPorLivro(livro_id);
     res.json({ status: msg, emprestimos });
   })();
 

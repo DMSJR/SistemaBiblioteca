@@ -17,12 +17,12 @@ const getEmprestimoByID = async (EmprestimoIDPar) => {
     ).rows[0];
 };
 
-const getEmprestimoPorLivro = async (LivroIDPar) => {
+const getEmprestimoPorLivro = async (livro_idPar) => {
     try {
         const emprestimos = (
             await db.query(
                 "SELECT * FROM Emprestimo WHERE livro_id = $1 AND deleted = false ORDER BY data_emprestimo ASC",
-                [LivroIDPar]
+                [livro_idPar]
             )
         ).rows;
         return { emprestimos, msg: "ok" };

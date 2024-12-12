@@ -20,8 +20,8 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}  
 
 {      
-    "livroid": 1,
-    "autorid": 1
+    "livro_id": 1,
+    "autor_id": 1
 }  
 
 ### teste de join livro-autor 
@@ -31,8 +31,8 @@ Authorization: Bearer {{accessToken}}
 
 {      
      
-    "livroid": 1, 
-    "autorid": 1    
+    "livro_id": 30, 
+    "autor_id": 2    
 } 
 
 ### teste de getAutoresPorLivro 
@@ -42,7 +42,7 @@ Authorization: Bearer {{accessToken}}
 
 {      
      
-    "livroid":1
+    "livro_id":35
        
 } 
 
@@ -53,6 +53,6 @@ Authorization: Bearer {{accessToken}}
 
 {      
      
-    "autorid": 1
+    "autor_id": 1
        
 } 

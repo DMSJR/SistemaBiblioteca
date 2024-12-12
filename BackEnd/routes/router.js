@@ -39,7 +39,7 @@ routerApp.post("/DeleteLivro", appLogin.AutenticaJWT, appLivros.deleteLivro);
 
 //Rotas de Autores
 routerApp.get("/getAllAutores", appLogin.AutenticaJWT, appAutores.getAllAutores);
-routerApp.get("/getAutorByID", appLogin.AutenticaJWT, appAutores.getAutorByID);
+routerApp.post("/getAutorByID", appLogin.AutenticaJWT, appAutores.getAutorByID);
 routerApp.post("/insertAutor", appLogin.AutenticaJWT, appAutores.insertAutor);
 routerApp.post("/updateAutor", appLogin.AutenticaJWT, appAutores.updateAutor);
 routerApp.post("/DeleteAutor", appLogin.AutenticaJWT, appAutores.deleteAutor);

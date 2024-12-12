@@ -28,7 +28,7 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}  
 
 {     
-    "livroid": 1  
+    "livro_id": 1  
 }  
 
 ### teste de inserção de livro  
@@ -37,7 +37,7 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}   
 
 {      
-    "codigo": "1122",   
+    "codigo": "1111",   
     "titulo": "Crime e Castigo",  
     "datapublicacao": "10/10/2010",
     "genero": "Romance",
@@ -53,7 +53,7 @@ Authorization: Bearer {{accessToken}}
 
 {      
      
-    "livroid": 1, 
+    "livro_id": 1, 
     "codigo": "111",   
     "titulo": "Crime e Castig- teste",  
     "datapublicacao": "10/10/2010",
@@ -68,5 +68,5 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}  
 
 {      
-    "livroid": 1   
+    "livro_id": 1   
 }

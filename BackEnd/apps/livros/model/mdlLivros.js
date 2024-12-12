@@ -8,42 +8,47 @@ const getAllLivros = async () => {
   ).rows;
 };
 
-const getLivroByID = async (LivroIDPar) => {
+const getLivroByID = async (livro_idPar) => {
   return (
     await db.query(
       "SELECT * FROM Livro WHERE livro_id = $1 and deleted = false ORDER BY titulo ASC",
-      [LivroIDPar]
+      [livro_idPar]
     )
   ).rows[0];
 };
 
 const insertLivro = async (LivroREGPar) => {
-  //@ Atenção: aqui já começamos a utilizar a variável msg para retornor erros de banco de dados.
   let linhasAfetadas;
+  let livro_id = null; // Variável para armazenar o ID retornado
   let msg = "ok";
+
   try {
-    linhasAfetadas = (
-      await db.query(
-        "INSERT INTO Livro " + "values(default, $1, $2, $3, $4, $5)",
-        [
-          LivroREGPar.codigo,
-          LivroREGPar.titulo,
-          LivroREGPar.datapublicacao,
-          LivroREGPar.genero,
-          LivroREGPar.valor
-         
-        ]
-      )
-    ).rowCount;
+    const result = await db.query(
+      "INSERT INTO Livro " +
+      "VALUES (default, $1, $2, $3, $4, $5) RETURNING livro_id",
+      [
+        LivroREGPar.codigo,
+        LivroREGPar.titulo,
+        LivroREGPar.data_publicacao,
+        LivroREGPar.genero,
+        LivroREGPar.valor,
+      ]
+    );
+
+    linhasAfetadas = result.rowCount;
+
+    if (linhasAfetadas > 0) {
+      livro_id = result.rows[0].livro_id; // Captura o ID retornado
+    }
   } catch (error) {
-    console.error("Erro ao inserir livro:", error);  // Exibe o erro completo
-    msg = "[mdlLivros|insertLivros] " + (error.message || error);
+    console.error("Erro ao inserir livro:", error); // Exibe o erro completo no console
+    msg = "[mdlLivros|insertLivro] " + (error.message || error);
     linhasAfetadas = -1;
   }
 
-
-  return { msg, linhasAfetadas };
+  return { msg, linhasAfetadas, livro_id }; // Retorna o ID junto com outras informações
 };
+
 
 const UpdateLivro = async (LivroREGPar) => {
   let linhasAfetadas;
@@ -59,14 +64,14 @@ const UpdateLivro = async (LivroREGPar) => {
         "valor = $6," +
         "deleted = $7 " +
         "WHERE livro_id = $1",
-        [   
-            LivroREGPar.livroid,
-            LivroREGPar.codigo,
-            LivroREGPar.titulo,
-            LivroREGPar.datapublicacao,
-            LivroREGPar.genero,
-            LivroREGPar.valor,
-            LivroREGPar.deleted
+        [
+          LivroREGPar.livro_id,
+          LivroREGPar.codigo,
+          LivroREGPar.titulo,
+          LivroREGPar.data_publicacao,
+          LivroREGPar.genero,
+          LivroREGPar.valor,
+          LivroREGPar.deleted
         ]
       )
     ).rowCount;
@@ -88,7 +93,7 @@ const DeleteLivro = async (LivroREGPar) => {
     linhasAfetadas = (
       await db.query(
         "UPDATE Livro SET deleted = true WHERE livro_id = $1",
-        [LivroREGPar.livroid]
+        [LivroREGPar.livro_id]
       )
     ).rowCount;
   } catch (error) {
@@ -106,5 +111,5 @@ module.exports = {
   insertLivro,
   UpdateLivro,
   DeleteLivro
-  
+
 };

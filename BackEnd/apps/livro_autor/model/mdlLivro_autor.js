@@ -1,11 +1,11 @@
 const db = require("../../../database/databaseconfig");
 
-const getAutoresPorLivro = async (livroId) => {
+const getAutoresPorLivro = async (livro_id) => {
     try {
         const autores = (
             await db.query(
                 "SELECT a.* FROM Autor a JOIN Livro_Autor la ON a.autor_id = la.autor_id WHERE la.livro_id = $1",
-                [livroId]
+                [livro_id]
             )
         ).rows;
 
@@ -16,12 +16,12 @@ const getAutoresPorLivro = async (livroId) => {
     }
 };
 
-const addAutorAoLivro = async (livroId, autorId) => {
+const addAutorAoLivro = async (livro_id, autor_id) => {
     try {
         const linhasAfetadas = (
             await db.query(
                 "INSERT INTO Livro_Autor (livro_id, autor_id) VALUES ($1, $2)",
-                [livroId, autorId]
+                [livro_id, autor_id]
             )
         ).rowCount;
 
@@ -31,7 +31,7 @@ const addAutorAoLivro = async (livroId, autorId) => {
         return { linhasAfetadas: -1, msg: error.detail || error.message };
     }
 };
-const getLivrosPorAutor = async (autorId) => {
+const getLivrosPorAutor = async (autor_id) => {
     try {
         const livros = (
             await db.query(
@@ -40,7 +40,7 @@ const getLivrosPorAutor = async (autorId) => {
            JOIN Livro_Autor la ON l.livro_id = la.livro_id
            WHERE la.autor_id = $1 AND l.deleted = false
            ORDER BY l.titulo ASC`,
-                [autorId]
+                [autor_id]
             )
         ).rows;
 
@@ -50,12 +50,12 @@ const getLivrosPorAutor = async (autorId) => {
         return { livros: [], msg: error.detail || error.message };
     }
 };
-const deleteAutorDoLivro = async (livroId, autorId) => {
+const deleteAutorDoLivro = async (livro_Id, autor_id) => {
     try {
         const linhasAfetadas = (
             await db.query(
                 "DELETE FROM Livro_Autor WHERE livro_id = $1 AND autor_id = $2",
-                [livroId, autorId]
+                [livro_id, autor_id]
             )
         ).rowCount;
 

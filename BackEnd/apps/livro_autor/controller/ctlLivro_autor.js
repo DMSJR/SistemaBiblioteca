@@ -3,14 +3,14 @@ const mdlLivro_autor = require("../model/mdlLivro_autor.js");
 
 const getAutoresPorLivro = (req, res) =>
   (async () => {
-    const livroID = parseInt(req.body.livroid);
+    const livro_id = parseInt(req.body.livro_id);
 
     // Validação básica
-    if (isNaN(livroID)) {
+    if (isNaN(livro_id)) {
       return res.status(400).json({ status: "error", message: "ID do livro inválido" });
     }
 
-    const { autores, msg } = await mdlLivro_autor.getAutoresPorLivro(livroID);
+    const { autores, msg } = await mdlLivro_autor.getAutoresPorLivro(livro_id);
 
     if (msg !== "ok") {
       return res.status(500).json({ status: "error", message: msg });
@@ -22,14 +22,14 @@ const getAutoresPorLivro = (req, res) =>
 // Método para adicionar um autor a um livro
 const addAutorAoLivro = (req, res) =>
   (async () => {
-    const { livroid, autorid } = req.body;
+    const { livro_id, autor_id } = req.body;
 
     // Validação básica
-    if (!livroid || !autorid || isNaN(livroid) || isNaN(autorid)) {
+    if (!livro_id || !autor_id || isNaN(livro_id) || isNaN(autor_id)) {
       return res.status(400).json({ status: "error", message: "IDs inválidos" });
     }
 
-    const { linhasAfetadas, msg } = await mdlLivro_autor.addAutorAoLivro(livroid, autorid);
+    const { linhasAfetadas, msg } = await mdlLivro_autor.addAutorAoLivro(livro_id, autor_id);
 
     if (linhasAfetadas <= 0) {
       return res.status(500).json({ status: "error", message: msg });
@@ -39,14 +39,14 @@ const addAutorAoLivro = (req, res) =>
   })();
 const getLivrosPorAutor = (req, res) =>
   (async () => {
-    const autorID = parseInt(req.body.autorid);
+    const autor_id = parseInt(req.body.autor_id);
 
     // Validação básica
-    if (isNaN(autorID)) {
+    if (isNaN(autor_id)) {
       return res.status(400).json({ status: "error", message: "ID do autor inválido" });
     }
 
-    const { livros, msg } = await mdlLivro_autor.getLivrosPorAutor(autorID);
+    const { livros, msg } = await mdlLivro_autor.getLivrosPorAutor(autor_id);
 
     if (msg !== "ok") {
       return res.status(500).json({ status: "error", message: msg });
@@ -56,14 +56,14 @@ const getLivrosPorAutor = (req, res) =>
   })();
   const deleteAutorDoLivro = (req, res) =>
     (async () => {
-      const { livroid, autorid } = req.body;
+      const { livro_id, autor_id } = req.body;
   
       // Validação básica
-      if (!livroid || !autorid || isNaN(livroid) || isNaN(autorid)) {
+      if (!livro_id || !autor_id || isNaN(livro_id) || isNaN(autor_id)) {
         return res.status(400).json({ status: "error", message: "IDs inválidos" });
       }
   
-      const { linhasAfetadas, msg } = await mdlLivro_autor.deleteAutorDoLivro(livroid, autorid);
+      const { linhasAfetadas, msg } = await mdlLivro_autor.deleteAutorDoLivro(livro_id, autor_id);
   
       if (linhasAfetadas <= 0) {
         return res.status(500).json({ status: "error", message: msg });

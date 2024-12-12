@@ -1,0 +1,189 @@
+{% extends "templates/base.html" %}
+
+{% block content %}
+
+    <div x-data="livroForm()">
+        <ol class="breadcrumb mb-2">
+            <li class="breadcrumb-item active">{{ title }}</li>
+        </ol>
+        <div>
+            <pre>{{ data | dump }}</pre>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        Cadastro de Livro
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="codigo">Código</label>
+                                        <input type="text" class="form-control" id="codigo" x-model="form.codigo" required="required">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="titulo">Título</label>
+                                        <input type="text" class="form-control" id="titulo" x-model="form.titulo">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="data_publicacao">Data de Publicação</label>
+                                        <input type="date" class="form-control" id="data_publicacao" x-model="form.data_publicacao">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="genero">Gênero</label>
+                                        <input type="text" class="form-control" id="genero" x-model="form.genero">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="valor">Valor</label>
+                                        <input type="number" class="form-control" id="valor" x-model="form.valor" step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-start mt-4">
+                                <button type="button" @click="insertForm()" class="btn btn-primary">Salvar</button>
+                                <a href="/livro/manutLivro" class="btn btn-info ml-2" role="button">Retornar</a>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            Autores
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="autor">Selecione um Autor</label>
+                                        <select id="autor" class="form-control" x-model="selectedAutorId" :disabled="!isSaved">
+                                            <option value="">Selecione</option>
+                                            {% for autor in data.registro %}
+                                                <option value="{{ autor.autor_id }}">{{ autor.nome }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 d-flex align-items-end">
+                                    <button type="button" class="btn btn-success" @click="addAutor()" :disabled="!isSaved">Adicionar Autor</button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <template x-if="message">
+                            <div :class="messageClass" x-text="message"></div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            const localErro = "{{ erro }}";
+            if (localErro && localErro.trim() !== "") {
+                alert("[vwLivro|onload] Servidor retornou o erro: " + localErro);
+            }
+            document
+                .getElementById("codigo")
+                .focus();
+        };
+
+        function livroForm() {
+            return {
+                form: {
+                    codigo: '',
+                    titulo: '',
+                    data_publicacao: '',
+                    genero: '',
+                    valor: '',
+                    deleted: false
+                },
+                isSaved: false, // Indica se o livro foi salvo
+                autoresVinculados: [],
+                selectedAutorId: '',
+                message: '',
+                messageClass: '',
+                async insertForm() {
+                    if (!this.form.codigo || !this.form.titulo || !this.form.data_publicacao) {
+                        this.message = "Preencha todos os campos obrigatórios.";
+                        this.messageClass = "alert alert-warning";
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch('/livro/insertLivro', {
+                            method: 'POST',
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(this.form)
+                        });
+
+                        const result = await response.json();
+
+                        if (result.status === "ok") {
+                            this.isSaved = true; // Habilita o seletor de autores
+                            this.form.livro_id = result.livro_id; 
+                            this.message = "Livro salvo com sucesso!";
+                            this.messageClass = "alert alert-success";
+                            console.log (this.form.livro_id);
+                        } else {
+                            this.message = `Erro: ${result.msg}`;
+                            this.messageClass = "alert alert-danger";
+                        }
+                    } catch (error) {
+                        this.message = `Erro de conexão: ${error.message}`;
+                        this.messageClass = "alert alert-danger";
+                    }
+                },
+                async addAutor() {
+                    if (!this.selectedAutorId) {
+                        this.message = "Selecione um autor antes de adicionar.";
+                        this.messageClass = "alert alert-warning";
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch('/livro/addAutor', {
+                            method: 'POST',
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({livro_id: this.form.livro_id, autor_id: this.selectedAutorId})
+                        });
+
+                        const result = await response.json();
+
+                        if (result.status === "ok") {
+                            this.message = "Autor adicionado com sucesso!";
+                            this.messageClass = "alert alert-success";
+                            
+                        } else {
+                            this.message = `Erro: ${result.msg}`;
+                            this.messageClass = "alert alert-danger";
+                        }
+                    } catch (error) {
+                        this.message = `Erro de conexão: ${error.message}`;
+                        this.messageClass = "alert alert-danger";
+                    }
+                }
+            };
+        }
+    </script>
+{% endblock %}

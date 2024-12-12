@@ -14,8 +14,8 @@ const getAllAutores = (req, res) =>
 
 const getAutorByID = (req, res) =>
   (async () => {
-    const autorID = parseInt(req.body.autorid);
-    let registro = await mdlAutores.getAutorByID(autorID);
+    const autor_id = parseInt(req.body.autor_id);
+    let registro = await mdlAutores.getAutorByID(autor_id);
 
 
     res.json({ status: "ok", "registro": registro });
