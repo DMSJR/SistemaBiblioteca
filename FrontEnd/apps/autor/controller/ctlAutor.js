@@ -97,7 +97,7 @@ const insertAutor = async (req, res) =>
     try {
       const response = await axios.post(
         process.env.SERVIDOR_DW3Back + "/GetAutorByID",
-        { autorid: id },
+        { autor_id: id },
         {
           headers: {
             "Content-Type": "application/json",

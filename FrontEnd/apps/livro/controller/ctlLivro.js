@@ -130,8 +130,8 @@ const insertLivro = async (req, res) =>
 
   const fetchLivroData = async (id, token) => {
     try {
-      // Realizar ambas as requisições em paralelo: um para buscar os dados do livro e outro para os autores
-      const [livroResponse, autoresResponse] = await Promise.all([
+      // Realizar todas as requisições em paralelo: dados do livro, todos os autores e autores atribuídos ao livro
+      const [livroResponse, autoresResponse, autoresPorLivroResponse] = await Promise.all([
         axios.post(
           `${process.env.SERVIDOR_DW3Back}/getLivroByID`,
           { livro_id: id },
@@ -139,33 +139,53 @@ const insertLivro = async (req, res) =>
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
-            },
+            }
           }
         ),
         axios.get(`${process.env.SERVIDOR_DW3Back}/GetAllAutores`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
-          },
+          }
         }),
+        axios.post(
+          `${process.env.SERVIDOR_DW3Back}/getAutoresPorLivro`,
+          { livro_id: id },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            }
+          }
+        )
       ]);
   
-      // Verificar se a resposta do livro está ok
+      // Verificar a resposta do livro
       if (livroResponse.data.status === "ok") {
         const livroData = livroResponse.data.registro;
   
         // Formatar a data de nascimento do autor, se necessário
-        livroData.datanasc = moment(livroData.datanasc).format("YYYY-MM-DD");
+        if (livroData.datanasc) {
+          livroData.datanasc = moment(livroData.datanasc).format("YYYY-MM-DD");
+        }
   
-        // Verificar se a resposta dos autores está ok
+        // Verificar a resposta dos autores
         if (autoresResponse.data.status === "ok") {
           const autores = autoresResponse.data.registro;
   
-          // Retornar o livroData junto com os autores
-          return {
-            livroData,
-            autores,
-          };
+          // Verificar a resposta dos autores atribuídos ao livro
+          if (autoresPorLivroResponse.data.status === "ok") {
+            const autoresPorLivro = autoresPorLivroResponse.data.autores;
+            // Retornar todos os dados necessários
+            return {
+              livroData,
+              autores,
+              autoresPorLivro,
+            };
+          } else {
+            console.log("[fetchLivroData] Erro ao buscar os autores atribuídos ao livro.");
+            throw new Error("Erro ao buscar os autores atribuídos ao livro");
+          }
         } else {
           console.log("[fetchLivroData] Erro ao buscar a lista de autores.");
           throw new Error("Erro ao buscar a lista de autores");
@@ -180,17 +200,19 @@ const insertLivro = async (req, res) =>
     }
   };
   
+  
 const ViewLivro = async (req, res) => {
   const userName = req.session.userName;
   const token = req.session.token;
   const id = parseInt(req.params.id);
 
   try {
-    const { livroData, autores }  = await fetchLivroData(id, token);
+    const { livroData, autores, autoresPorLivro }  = await fetchLivroData(id, token);
     res.render("livro/view/vwFRUDrLivro.njk", {
       title: "Visualização de Livro",
       data: livroData,
       dataAutores: autores,
+      dataAutoresPorLivro:autoresPorLivro,
       disabled: true, // Campos desabilitados para visualização
       userName: userName,
     });
@@ -207,12 +229,14 @@ const UpdateLivro = async (req, res) => {
     const id = parseInt(req.params.id);
 
     try {
-      const { livroData, autores }  = await fetchLivroData(id, token);
-      console.log(autores);
+      const { livroData, autores, autoresPorLivro }  = await fetchLivroData(id, token);
+
+
       res.render("livro/view/vwFRUDrLivro.njk", {
         title: "Atualização de Livro",
         data: livroData,
         dataAutores: autores,
+        dataAutoresPorLivro:autoresPorLivro,
         disabled: false, // Campos editáveis
         userName: userName,
       });

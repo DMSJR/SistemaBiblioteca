@@ -20,8 +20,8 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}  
 
 {      
-    "livro_id": 35,
-    "autor_id": 2
+    "livro_id": 42,
+    "autor_id": 3
 }  
 
 ### teste de join livro-autor 
@@ -31,7 +31,7 @@ Authorization: Bearer {{accessToken}}
 
 {      
      
-    "livro_id": 30, 
+    "livro_id": 40, 
     "autor_id": 2    
 } 
 
@@ -42,7 +42,7 @@ Authorization: Bearer {{accessToken}}
 
 {      
      
-    "livro_id":35
+    "livro_id":33
        
 } 
 

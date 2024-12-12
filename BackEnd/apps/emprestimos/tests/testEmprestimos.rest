@@ -28,7 +28,7 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}  
 
 {     
-    "emprestimoid": 1 
+    "emprestimo_id": 4 
 }  
 
 ### teste de inserção de emprestimo  

@@ -15,8 +15,8 @@ const getAllEmprestimos = (req, res) =>
 
 const getEmprestimoByID = (req, res) =>
   (async () => {
-    const emprestimoID = parseInt(req.body.emprestimoid);
-    let registro = await mdlEmprestimos.getEmprestimoByID(emprestimoID);
+    const emprestimo_id = parseInt(req.body.emprestimo_id);
+    let registro = await mdlEmprestimos.getEmprestimoByID(emprestimo_id);
     res.json({ status: "ok", registro });
   })();
 

@@ -105,7 +105,7 @@ const ViewUsuario = async (req, res) =>
         response = await axios.post(
           process.env.SERVIDOR_DW3Back + "/getUsuarioByID",
           {
-            usuarioid: id,
+            usuario_id: id,
           },
           {
             headers: {
@@ -156,7 +156,7 @@ const UpdateUsuario = async (req, res) =>
         response = await axios.post(
           process.env.SERVIDOR_DW3Back + "/GetUsuarioByID",
           {
-            usuarioid: id,
+            usuario_id: id,
           },
           {
             headers: {

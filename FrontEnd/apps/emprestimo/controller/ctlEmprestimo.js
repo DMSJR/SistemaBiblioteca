@@ -25,8 +25,8 @@ const manutEmprestimo = async (req, res) => {
       resp.data.registro.map(async (emprestimo) => {
         try {
           const responseUser = await axios.post(
-            process.env.SERVIDOR_DW3Back + "/GetUsuarioByID",
-            { usuarioid: emprestimo.usuario_id },
+            process.env.SERVIDOR_DW3Back + "/getUsuarioByID",
+            { usuario_id: emprestimo.usuario_id },
             {
               headers: {
                 "Content-Type": "application/json",
@@ -50,8 +50,8 @@ const manutEmprestimo = async (req, res) => {
       registrosComNomes.map(async (emprestimo) => {
         try {
           const responseLivro = await axios.post(
-            process.env.SERVIDOR_DW3Back + "/GetLivroByID",
-            { livroid: emprestimo.livro_id },
+            process.env.SERVIDOR_DW3Back + "/getLivroByID",
+            { livro_id: emprestimo.livro_id },
             {
               headers: {
                 "Content-Type": "application/json",
@@ -76,7 +76,7 @@ const manutEmprestimo = async (req, res) => {
         try {
           const responseAutor = await axios.post(
             process.env.SERVIDOR_DW3Back + "/getAutoresPorLivro",
-            { livroid: emprestimo.livro_id },
+            { livro_id: emprestimo.livro_id },
             {
               headers: {
                 "Content-Type": "application/json",
@@ -236,7 +236,7 @@ const ViewEmprestimo = async (req, res) => {
       // Busca do empréstimo pelo ID
       const emprestimoResponse = await axios.post(
         `${process.env.SERVIDOR_DW3Back}/getEmprestimoByID`,
-        { emprestimoid: id },
+        { emprestimo_id: id },
         {
           headers: {
             "Content-Type": "application/json",
@@ -254,7 +254,7 @@ const ViewEmprestimo = async (req, res) => {
         // Busca do nome do livro
         const livroResponse = await axios.post(
           `${process.env.SERVIDOR_DW3Back}/getLivroByID`,
-          { livroid: emprestimo.livro_id },
+          { livro_id: emprestimo.livro_id },
           {
             headers: {
               "Content-Type": "application/json",
@@ -269,7 +269,7 @@ const ViewEmprestimo = async (req, res) => {
           // Busca dos autores do livro
           const autoresResponse = await axios.post(
             `${process.env.SERVIDOR_DW3Back}/getAutoresPorLivro`,
-            { livroid: emprestimo.livro_id },
+            { livro_id: emprestimo.livro_id },
             {
               headers: {
                 "Content-Type": "application/json",
@@ -292,7 +292,7 @@ const ViewEmprestimo = async (req, res) => {
         // Busca do nome do usuário
         const usuarioResponse = await axios.post(
           `${process.env.SERVIDOR_DW3Back}/getUsuarioByID`,
-          { usuarioid: emprestimo.usuario_id },
+          { usuario_id: emprestimo.usuario_id },
           {
             headers: {
               "Content-Type": "application/json",
@@ -301,7 +301,7 @@ const ViewEmprestimo = async (req, res) => {
           }
         );
         console.log("Requisição enviada:", {
-          usuarioid: emprestimo.usuario_id,
+          usuario_id: emprestimo.usuario_id,
         });
         console.log("usuario", usuarioResponse.data.registro.nome);
         if (usuarioResponse.data.status === "ok") {
@@ -356,7 +356,7 @@ const UpdateEmprestimo = async (req, res) => {
       // Buscar dados do empréstimo
       const emprestimoResponse = await axios.post(
         `${process.env.SERVIDOR_DW3Back}/getEmprestimoByID`,
-        { emprestimoid: id },
+        { emprestimo_id: id },
         {
           headers: {
             "Content-Type": "application/json",
@@ -375,7 +375,7 @@ const UpdateEmprestimo = async (req, res) => {
         // Buscar nome do livro
         const livroResponse = await axios.post(
           `${process.env.SERVIDOR_DW3Back}/getLivroByID`,
-          { livroid: emprestimo.livro_id },
+          { livro_id: emprestimo.livro_id },
           {
             headers: {
               "Content-Type": "application/json",
@@ -390,7 +390,7 @@ const UpdateEmprestimo = async (req, res) => {
           // Buscar autores do livro
           const autoresResponse = await axios.post(
             `${process.env.SERVIDOR_DW3Back}/getAutoresPorLivro`,
-            { livroid: emprestimo.livro_id },
+            { livro_id: emprestimo.livro_id },
             {
               headers: {
                 "Content-Type": "application/json",
@@ -411,7 +411,7 @@ const UpdateEmprestimo = async (req, res) => {
         // Buscar nome do usuário
         const usuarioResponse = await axios.post(
           `${process.env.SERVIDOR_DW3Back}/getUsuarioByID`,
-          { usuarioid: emprestimo.usuario_id },
+          { usuario_id: emprestimo.usuario_id },
           {
             headers: {
               "Content-Type": "application/json",

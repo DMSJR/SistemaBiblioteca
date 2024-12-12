@@ -28,7 +28,7 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}  
 
 {     
-    "livro_id": 1  
+    "livro_id": 33  
 }  
 
 ### teste de inserção de livro  

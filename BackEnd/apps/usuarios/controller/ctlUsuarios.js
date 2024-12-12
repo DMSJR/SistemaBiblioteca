@@ -14,8 +14,8 @@ const getAllUsuarios = (req, res) =>
 
 const getUsuarioByID = (req, res) =>
   (async () => {
-    const usuarioID = parseInt(req.body.usuarioid);
-    let registro = await mdlUsuarios.getUsuarioByID(usuarioID);
+    const usuario_id = parseInt(req.body.usuario_id);
+    let registro = await mdlUsuarios.getUsuarioByID(usuario_id);
 
 
     res.json({ status: "ok", "registro": registro });
