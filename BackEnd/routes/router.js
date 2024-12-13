@@ -33,6 +33,8 @@ routerApp.post("/getLivroByID", appLogin.AutenticaJWT, appLivros.getLivroByID);
 routerApp.post("/insertLivro", appLogin.AutenticaJWT, appLivros.insertLivro);
 routerApp.post("/updateLivro", appLogin.AutenticaJWT, appLivros.updateLivro);
 routerApp.post("/DeleteLivro", appLogin.AutenticaJWT, appLivros.deleteLivro);
+routerApp.get("/getAllLivroAutor", appLogin.AutenticaJWT, appLivro_autor.getAllLivroAutor);
+
 
 
 

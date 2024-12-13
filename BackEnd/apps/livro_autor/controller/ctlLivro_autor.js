@@ -1,6 +1,15 @@
 
 const mdlLivro_autor = require("../model/mdlLivro_autor.js");
 
+const getAllLivroAutor = (req, res) =>
+  (async () => {
+    let registro = await mdlLivro_autor.getAllLivroAutor();
+    for (let i = 0; i < registro.length; i++) {
+      const row = registro[i]; // Current row      
+      
+    }
+    res.json({ status: "ok", "registro": registro });
+  })();
 const getAutoresPorLivro = (req, res) =>
   (async () => {
     const livro_id = parseInt(req.body.livro_id);
@@ -75,5 +84,6 @@ const getLivrosPorAutor = (req, res) =>
     getAutoresPorLivro,
     getLivrosPorAutor,
     addAutorAoLivro,
+    getAllLivroAutor,
     deleteAutorDoLivro
   };

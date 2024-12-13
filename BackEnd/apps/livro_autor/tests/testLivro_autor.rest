@@ -12,7 +12,14 @@ content-type: application/json
 @accessToken = {{loginAutenticado.response.body.$.token}}  
 @username = {{loginAutenticado.response.body.$.username}}  
 
+### teste de buscar todos as relacoes livro-autor  
+GET http://localhost:40000/getAllLivroAutor HTTP/1.1  
+content-type: application/json  
+Authorization: Bearer {{accessToken}}  
 
+{      
+    
+}
 
 ### teste de deleção de autor_livro  
 POST http://localhost:40000/deleteAutorDoLivro HTTP/1.1  

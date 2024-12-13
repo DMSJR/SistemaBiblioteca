@@ -1,5 +1,11 @@
 const db = require("../../../database/databaseconfig");
-
+const getAllLivroAutor= async () => {
+    return (
+        await db.query(
+            "SELECT * FROM livro_autor"
+        )
+    ).rows;
+};
 const getAutoresPorLivro = async (livro_id) => {
     try {
         const autores = (
@@ -70,5 +76,6 @@ module.exports = {
     getAutoresPorLivro,
     getLivrosPorAutor,
     addAutorAoLivro,
-    deleteAutorDoLivro
+    deleteAutorDoLivro,
+    getAllLivroAutor
 }
