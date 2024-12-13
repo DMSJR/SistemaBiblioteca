@@ -143,7 +143,7 @@ const insertEmprestimo = async (req, res) => {
           try {
             const autoresResponse = await axios.post(
               `${process.env.SERVIDOR_DW3Back}/getAutoresPorLivro`,
-              { livroid: livro.livro_id }, // Corpo da requisição POST
+              { livro_id: livro.livro_id }, // Corpo da requisição POST
               {
                 headers: {
                   "Content-Type": "application/json",
