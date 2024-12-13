@@ -2,37 +2,150 @@
 
 {% block content %}
 
-  
-  <ol class="breadcrumb mb-2">
-    <li class="breadcrumb-item active">{{title}}</li>
-  </ol>
-  <div class="row">
-    <div class="col-xl-12">
+<style>
+  /* Estilos gerais */
+  .card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding-top: 3%;
+    text-align: center;
+  }
 
-      <div class="card-header">
-        Início
-      </div>
+  button {
+    border-radius: 5px;
+    transition: transform 0.2s ease-in-out;
+  }
 
+  button:hover {
+    transform: scale(1.05);
+  }
+
+  .card-title {
+    font-weight: bold;
+    font-size: 18px;
+    color: #333;
+  }
+
+  .card-title:hover {
+    color: #007bff;
+  }
+
+  .card p {
+    color: #666;
+    font-size: 14px;
+  }
+
+  a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .icon {
+    font-size: 30px;
+    color: #333;
+    margin-right: 10px;
+  }
+
+  .icon:hover {
+    color: #007bff;
+  }
+</style>
+
+<ol class="breadcrumb mb-2">
+  <li class="breadcrumb-item active"></li>
+</ol>
+
+<div class="row">
+  <!-- Boas-vindas -->
+  <div class="col-xl-12 mb-4">
+    <div class="card shadow" style="background-color: #93bbb5; color: black;">
       <div class="card-body">
-        <div class="col-xl-5">
+        <h4>Bem-vindo ao Sistema de Biblioteca!</h4>
+        <p>Gerencie livros, usuários e autores de forma simples e eficiente.</p>
+      </div>
+    </div>
+  </div>
 
-          
+  <!-- Atalhos rápidos -->
+  <div class="col-xl-4 col-md-6 mb-4">
+    <div class="card border-left-success shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+              Gerenciar Livros
+            </div>
+            <a href="/livro/ManutLivro" class="btn btn-success btn-sm">Acessar</a>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-book fa-2x text-gray-300"></i>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
+  <div class="col-xl-4 col-md-6 mb-4">
+    <div class="card border-left-info shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+              Gerenciar Usuários
+            </div>
+            <a href="/usuario/ManutUsuario" class="btn btn-info btn-sm">Acessar</a>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-users fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <div class="col-xl-4 col-md-6 mb-4">
+    <div class="card border-left-warning shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+              Gerenciar Autores
+            </div>
+            <a href="/autor/ManutAutor" class="btn btn-warning btn-sm">Acessar</a>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-book-reader fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-
+<!-- Botão Cadastro de Empréstimos -->
+<div class="row">
+  <div class="col-xl-12 mb-4">
+    <div class="card shadow" style="background-color: #f8f9fa; color: black;">
+      <div class="card-body text-center">
+        <h5 class="text-uppercase font-weight-bold">Cadastro de Empréstimos</h5>
+        <p>Gerencie os empréstimos do acervo de maneira eficiente.</p>
+        <a href="/emprestimo/ManutEmprestimo" class="btn btn-primary btn-sm">
+          Gerenciar Empréstimos
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
   window.onload = function () {
     windowOnLoad();
-
   };
-
 </script>
-
 
 {% endblock %}
