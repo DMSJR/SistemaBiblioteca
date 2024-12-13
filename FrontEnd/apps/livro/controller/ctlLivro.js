@@ -165,8 +165,8 @@ const insertLivro = async (req, res) =>
         const livroData = livroResponse.data.registro;
   
         // Formatar a data de nascimento do autor, se necessário
-        if (livroData.datanasc) {
-          livroData.datanasc = moment(livroData.datanasc).format("YYYY-MM-DD");
+        if (livroData.data_publicacao) {
+          livroData.data_publicacao = moment(livroData.data_publicacao).format("YYYY-MM-DD");
         }
   
         // Verificar a resposta dos autores
