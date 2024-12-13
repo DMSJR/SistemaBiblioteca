@@ -3,7 +3,7 @@
 {% block content %}
 <div x-data="autorForm()">
     <ol class="breadcrumb mb-2">
-        <li class="breadcrumb-item active">{{ title }}</li>
+        <li class="breadcrumb-item active"></li>
     </ol>
     <div class="row">
         <div class="col-12">
@@ -12,6 +12,7 @@
                     Cadastro de Autor
                 </div>
                 <div class="card-body">
+                    <form class="m1">
                     <form>
                         <div class="row">
                             <div class="col-md-4">
@@ -48,7 +49,7 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-start mt-4">
-                            <button type="button" @click="insertForm()" class="btn btn-primary">Salvar</button>
+                            <button type="button" @click="insertForm()" class="btn btn-primary" style="margin-right: 10px;">Salvar</button>
                             <a href="/autor/manutAutor" class="btn btn-info ml-2" role="button">Retornar</a>
                         </div>
                     </form>

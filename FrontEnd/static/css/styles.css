@@ -18,6 +18,17 @@ height: 250px;
 margin-left: 95px;
  }
 
+ #logopag{
+width: 50px;
+height: 50px;
+margin-left: 50px;
+ }
+
+ .m1{
+margin-top: 5%;
+ }
+
+
 
 :root {
   --bs-blue: #0d6efd;
@@ -10976,10 +10987,10 @@ body {
   margin: 0;
 }
 .sb-topnav.navbar-dark #sidebarToggle {
-  color: rgba(255, 255, 255, 1.5);
+  color: #000;
 }
 .sb-topnav.navbar-light #sidebarToggle {
-  color: #212529;
+  color: #000;
 }
 
 .sb-sidenav {
@@ -11029,20 +11040,20 @@ body {
 }
 
 .sb-sidenav-dark {
-  background-color: #212529;
+  background-color: #63918b;
   color: rgba(255, 255, 255, 1.0); /* xxx Alterei de 0.25 para 1*/
 }
 .sb-sidenav-dark .sb-sidenav-menu .sb-sidenav-menu-heading {
-  color: rgba(255, 255, 255, 0.50);
+  color: #000;
 }
 .sb-sidenav-dark .sb-sidenav-menu .nav-link {
-  color: rgba(255, 255, 255, 1.0); /*Muda a cor do menu da sidebar esquerda */
+  color: #000; /*Muda a cor do menu da sidebar esquerda */
 }
 .sb-sidenav-dark .sb-sidenav-menu .nav-link .sb-nav-link-icon {
-  color: rgba(255, 255, 255, 0.50);
+  color: #000;
 }
 .sb-sidenav-dark .sb-sidenav-menu .nav-link .sb-sidenav-collapse-arrow {
-  color: rgba(255, 255, 255, 0.50);
+  color: #000;
 }
 .sb-sidenav-dark .sb-sidenav-menu .nav-link:hover {
   color: #fff;
@@ -11054,7 +11065,7 @@ body {
   color: #fff;
 }
 .sb-sidenav-dark .sb-sidenav-footer {
-  background-color: #343a40;
+  background-color: #63918b;
 }
 
 .sb-sidenav-light {
@@ -11062,10 +11073,10 @@ body {
   color: #212529;
 }
 .sb-sidenav-light .sb-sidenav-menu .sb-sidenav-menu-heading {
-  color: #adb5bd;
+  color: #000;
 }
 .sb-sidenav-light .sb-sidenav-menu .nav-link {
-  color: #212529;
+  color: #000;
 }
 .sb-sidenav-light .sb-sidenav-menu .nav-link .sb-nav-link-icon {
   color: #adb5bd;

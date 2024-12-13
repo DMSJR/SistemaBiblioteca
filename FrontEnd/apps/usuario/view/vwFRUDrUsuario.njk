@@ -3,61 +3,61 @@
 {% block content %}
   <div x-data="usuarioForm()">
     <ol class="breadcrumb mb-2">
-      <li class="breadcrumb-item active">{{title}}</li>
+      <li class="breadcrumb-item active">
+      </li>
     </ol>
     <div class="row">
       <div class="col-12">
-
+        <div class="card">
         <div class="card-header">
           {{title}}
 
         </div>
 
         <div class="card-body">
-          <div class="">
+          <div class="m1">
 
             {# <form @submit.prevent="submitForm"> #}
             <form>
               <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4">
                   <div class="form-group">
                     <label for="codigo">Código</label>
                     <input type="text" class="form-control" id="codigo" required="required" x-model="form.codigo" x-bind:disabled="disabled">
                   </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-4">
                   <div class="form-group">
                     <label for="nome">Nome</label>
                     <input type="text" class="form-control" id="nome" x-model="form.nome" x-bind:disabled="disabled">
                   </div>
                 </div>
-              </div>
-
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label for="email">E-mail</label>
                   <input type="email" class="form-control" id="email" x-model="form.email" x-bind:disabled="disabled">
                 </div>
               </div>
+              </div>
               <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4">
                   <div class="form-group">
                     <label for="telefone">Telefone</label>
                     <input type="number" class="form-control" id="telefone" x-model="form.telefone" x-bind:disabled="disabled">
                   </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-4">
                   <div class="form-group">
                     <label for="datanasc">Data de Nascimento</label>
                     <input type="date" class="form-control" id="datanasc" x-model="form.datanasc" x-bind:disabled="disabled">
                   </div>
                 </div>
-              </div>
-              <div class="form-group col-md-6">
-                <label for="multas"></label>
+              <div class="form-group col-md-4">
+                <label for="multas">Multas:</label>
                 <input type="number" class="form-control" id="multas" x-model="form.multas" x-bind:disabled="disabled">
+              </div>
               </div>
 
               <button type="button" @click="updateForm()" class="btn btn-primary mt-4">Salvar</button>
@@ -72,6 +72,7 @@
             </div>
           </div>
 
+        </div>
         </div>
       </div>
     </div>
