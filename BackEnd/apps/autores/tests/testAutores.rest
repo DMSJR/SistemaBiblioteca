@@ -28,7 +28,7 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}  
 
 {     
-    "autor_id": 1  
+    "autor_id": 2  
 }  
 
 ### teste de inserção de autor  
@@ -57,7 +57,7 @@ Authorization: Bearer {{accessToken}}
     "codigo": "111",   
     "nome": "Dostoievsk-teste",  
     "nacionalidade": "Russo-teste",
-    "datanasc": "01/01/1901",
+    "datanasc": "1901-01-02",
     "royalties": "16.55",
     "deleted": false          
 }  

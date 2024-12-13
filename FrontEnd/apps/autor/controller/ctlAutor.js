@@ -162,7 +162,7 @@ const insertAutor = async (req, res) =>
     } else if (req.method === "POST") {
       try {
         const regData = req.body;
-  
+        
         const response = await axios.post(
           process.env.SERVIDOR_DW3Back + "/updateAutor",
           regData,
@@ -174,6 +174,7 @@ const insertAutor = async (req, res) =>
             timeout: 5000, // Timeout de 5 segundos
           }
         );
+        console.log(regData);
   
         res.json({
           status: response.data.status,
