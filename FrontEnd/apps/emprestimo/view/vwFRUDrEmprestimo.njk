@@ -1,21 +1,13 @@
 {% extends "templates/base.html" %}
 
 {% block content %}
-  {#<div>
-    <pre>{{ data | dump }}</pre>
-  </div>
-  <div>
-    <pre>{{ usuarios | dump }}</pre>
-  </div>
-  <div>
-    <pre>{{ livros | dump }}</pre>
-  </div>#}
   <div x-data="emprestimoForm()">
     <ol class="breadcrumb mb-2">
-      <li class="breadcrumb-item active">{{title}}</li>
+      <li class="breadcrumb-item active"></li>
     </ol>
     <div class="row">
       <div class="col-12">
+            <div class="card">
 
         <div class="card-header">
           {{title}}
@@ -23,7 +15,7 @@
         </div>
 
         <div class="card-body">
-          <div class="">
+          <div class="m1">
 
             {# <form @submit.prevent="submitForm"> #}
             <form>
@@ -34,21 +26,24 @@
                     <input type="text" class="form-control" id="codigo" required="required" x-model="form.codigo" x-bind:disabled="disabled">
                   </div>
                 </div>
+                </div>
 
-                <div class="col-md-3">
+              <div class="row">
+                <div class="col-md-4">
                   <div class="form-group">
                     <label for="dataemprestimo">Data Emprestimo</label>
                     <input type="date" class="form-control" id="dataemprestimo" x-model="form.dataemprestimo" x-bind:disabled="disabled">
                   </div>
                 </div>
-              </div>
 
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label for="datadevolucao">Data Devolucao</label>
                   <input type="date" class="form-control" id="datadevolucao" x-model="form.datadevolucao" x-bind:disabled="disabled">
                 </div>
               </div>
+              </div>
+
               <div class="row">
                 <div class="col-md-3">
                   <div class="form-group">

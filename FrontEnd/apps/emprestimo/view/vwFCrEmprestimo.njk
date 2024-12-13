@@ -1,46 +1,45 @@
 {% extends "templates/base.html" %}
 {% block content %}
-    <div>
-        <pre>{{ usuarios | dump }}</pre>
-    </div>
-    <div>
-        <pre>{{ livros | dump }}</pre>
-    </div>
     <div x-data="emprestimoForm()">
         <ol class="breadcrumb mb-2">
-            <li class="breadcrumb-item active">{{ title }}</li>
+            <li class="breadcrumb-item active"></li>
         </ol>
         <div class="row">
             <div class="col-12">
+             <div class="card">
                 <div class="card-header">
-                    {{ tite }}
+                    Cadastro de Emprestimo
                 </div>
                 <div class="card-body">
 
                     {# <form @submit.prevent="submitForm"> #}
-                    <form>
+                    <form class="m1">
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="código">Código</label>
+                                    <label for="código" class="m1">Código</label>
                                     <input type="text" class="form-control" id="codigo" x-model="form.codigo" required="required"></div>
                             </div>
-                            <div class="col-md-3">
+                            </div>
+                            <div class="row">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="dataemprestimo">Data emprestimo</label>
                                     <input type="date" class="form-control" id="dataemprestimo" x-model="form.dataemprestimo"></div>
                             </div>
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="datadevolucao">Data devolução</label>
                                 <input type="date" class="form-control" id="datadevolucao" x-model="form.datadevolucao"></div>
                         </div>
+                        </div>
 
                         <div class="row">
+                            <div class="col-md-3">
                             <div class="form-group">
                                 <label for="multa">Multa</label>
                                 <input type="number" class="form-control" id="multa" x-model="form.multa"></div>
+                        </div>
                         </div>
 
                         <div class="col-md-6">
